@@ -1,0 +1,5 @@
+# Security / Sicurezza
+
+EN: The latest 0.1 alpha is the only supported line. Do not use this alpha as a security boundary. For a suspected vulnerability, use [GitHub private vulnerability reporting](https://github.com/MRJonam91/AgentLedger/security/advisories/new); never post keys, personal data or private ledgers in public issues. Request coordinated disclosure, normally allowing up to 90 days for investigation and a fix; shorter timelines may be needed for active exploitation. Response times are best effort. The threat model and skipped verification checks are documented under docs/.
+
+IT: Solo l'ultima alfa 0.1 è supportata. Non usarla come confine di sicurezza. Per vulnerabilità sospette usa le [segnalazioni private GitHub](https://github.com/MRJonam91/AgentLedger/security/advisories/new); non pubblicare chiavi, dati personali o registri privati nelle issue. Si richiede disclosure coordinata, normalmente fino a 90 giorni per indagine/correzione; sfruttamenti attivi possono richiedere tempi inferiori. Tempi di risposta senza garanzia. Modello di minaccia e verifiche mancanti sono in docs/.

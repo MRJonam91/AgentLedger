@@ -1,0 +1,12 @@
+{
+  "id": "resp_example_synthetic_001",
+  "model": "demo-model",
+  "status": "completed",
+  "usage": {
+    "input_tokens": 1000,
+    "input_tokens_details": {"cached_tokens": 200},
+    "output_tokens": 500,
+    "total_tokens": 1500
+  },
+  "output": [{"type": "message", "content": [{"type": "output_text", "text": "EXAMPLE CONTENT discarded by AgentLedger"}]}]
+}

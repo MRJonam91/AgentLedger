@@ -1,0 +1,21 @@
+<!-- SPDX-License-Identifier: GPL-3.0-or-later; original artwork, copyright 2026 MRJonam91 -->
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="360" viewBox="0 0 960 360" role="img" aria-labelledby="title desc">
+  <title id="title">AgentLedger offline trial / Prova offline</title>
+  <desc id="desc">An executable synthetic fixture allows a generation, records 1000 input tokens including 200 cached and 500 output tokens, calculates USD 0.0057, denies another request and verifies three hash-linked events. No network calls or charges.</desc>
+  <style>
+    text{font-family:ui-monospace,Consolas,monospace;fill:#dce8ef;font-size:19px}
+    .muted{fill:#95aebb;font-size:16px}.ok{fill:#8de0b0}.deny{fill:#ffbf88}
+    .row{animation:reveal 5s infinite}.two{animation-delay:.6s}.three{animation-delay:1.2s}.four{animation-delay:1.8s}
+    @keyframes reveal{0%,9%{opacity:.18}25%,95%{opacity:1}100%{opacity:.18}}
+    @media(prefers-reduced-motion:reduce){.row{animation:none}}
+  </style>
+  <rect width="960" height="360" rx="18" fill="#102530"/>
+  <rect x="22" y="22" width="916" height="48" rx="8" fill="#1c3846"/>
+  <text x="42" y="53" font-weight="bold">AgentLedger <tspan class="muted">/ local audit · registro locale</tspan></text>
+  <text x="42" y="108">$ python -m agentledger demo</text>
+  <g class="row"><text x="42" y="153" class="ok">01  ALLOW  ai.generate</text><text x="565" y="153" class="muted">policy recorded first</text></g>
+  <g class="row two"><text x="42" y="194">02  USAGE  1000 in · 200 cached · 500 out</text></g>
+  <g class="row three"><text x="42" y="235" class="deny">03  DENY   default_deny</text><text x="565" y="235" class="ok">USD 0.0057*</text></g>
+  <g class="row four"><text x="42" y="281" class="ok">VERIFY  3 events · SHA-256 chain</text></g>
+  <text x="42" y="328" class="muted">*Synthetic rates / Tariffe inventate. Offline. Zero API calls or charges.</text>
+</svg>

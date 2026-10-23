@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "provider": "openai",
+  "model": "demo-model",
+  "currency": "USD",
+  "effective_date": "2026-10-23",
+  "input_per_million": "2",
+  "cached_input_per_million": "0.5",
+  "output_per_million": "8"
+}

@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.agentledger/
+.test-output/
+*.sqlite3*
+.env
+.env.*
+_provenance/
+.worktrees/
+.mypy_cache/

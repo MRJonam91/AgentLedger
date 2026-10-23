@@ -1,0 +1,10 @@
+include LICENSE NOTICE THIRD_PARTY_NOTICES.md LICENSING.md ASSETS.md
+include README.md README.it.md SEED.md AGENTS.md
+include CONTRIBUTING.md SECURITY.md SUPPORT.md CODE_OF_CONDUCT.md CHANGELOG.md
+include .gitignore
+include .gitattributes
+recursive-include .github *.yml *.md
+recursive-include docs *.md *.svg
+recursive-include examples *.json
+recursive-include scripts *.py
+recursive-include tests *.py

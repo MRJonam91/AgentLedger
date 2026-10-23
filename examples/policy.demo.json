@@ -1,0 +1,5 @@
+{
+  "schema_version": 1,
+  "allowed_models": ["demo-model"],
+  "max_output_tokens": 1024
+}
