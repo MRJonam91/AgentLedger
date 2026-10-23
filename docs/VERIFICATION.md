@@ -25,4 +25,7 @@ EN: This file records release evidence, not a certification. Local verification 
 
 ## Remote evidence / Evidenze remote
 
-Repository, CI, visibility, refs and release assets are verified during publication. / Repository, CI, visibilità, riferimenti e asset della release vengono verificati durante la pubblicazione.
+- [Repository](https://github.com/MRJonam91/AgentLedger) created private first and pushed with initial commit `ab4851a16f5002d2fb135c3cd958a6d1c8b935d0`; made public only after local checks, independent review and remote CI succeeded. / Creato inizialmente privato e reso pubblico dopo controlli locali, revisione e CI.
+- [GitHub Actions run 40020597334](https://github.com/MRJonam91/AgentLedger/actions/runs/40020597334): **all four jobs succeeded** on Ubuntu/Windows and Python 3.11/3.14. Each ran 41 tests, source/history scan, static checks, build, wheel installation and installed-entrypoint smoke. / Quattro job superati con test, scansione, controlli statici, build, installazione e prova CLI.
+- Default branch `main`, owner MRJonam91, 12 topics, description, GPLv3 detection and `.github/FUNDING.yml` verified through GitHub API. `main` currently has no branch protection; no protected-branch or signed-tag claim is made. / Verificati branch, proprietario, topic, descrizione, riconoscimento licenza e funding; branch non protetto, nessuna affermazione di tag firmato.
+- `python scripts/check_project.py --history` inspected the complete new reachable history and noreply authorship with zero findings in its defined scan scope. Generated databases, environments and test results remain ignored. / Cronologia e autori noreply controllati senza rilievi nel perimetro dichiarato; dati generati ignorati.
