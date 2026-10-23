@@ -29,3 +29,13 @@ EN: This file records release evidence, not a certification. Local verification 
 - [GitHub Actions run 40020597334](https://github.com/MRJonam91/AgentLedger/actions/runs/40020597334): **all four jobs succeeded** on Ubuntu/Windows and Python 3.11/3.14. Each ran 41 tests, source/history scan, static checks, build, wheel installation and installed-entrypoint smoke. / Quattro job superati con test, scansione, controlli statici, build, installazione e prova CLI.
 - Default branch `main`, owner MRJonam91, 12 topics, description, GPLv3 detection and `.github/FUNDING.yml` verified through GitHub API. `main` currently has no branch protection; no protected-branch or signed-tag claim is made. / Verificati branch, proprietario, topic, descrizione, riconoscimento licenza e funding; branch non protetto, nessuna affermazione di tag firmato.
 - `python scripts/check_project.py --history` inspected the complete new reachable history and noreply authorship with zero findings in its defined scan scope. Generated databases, environments and test results remain ignored. / Cronologia e autori noreply controllati senza rilievi nel perimetro dichiarato; dati generati ignorati.
+- [Release-target CI run 40020950027](https://github.com/MRJonam91/AgentLedger/actions/runs/40020950027) succeeded at `d336c8623a69bb98c5eb7c4fbce96fa797fe8129`, the exact commit referenced by annotated tag `v0.1.0-alpha.1`. Tag is unsigned. / CI superata sul commit esatto del tag annotato, non firmato.
+- [Public prerelease](https://github.com/MRJonam91/AgentLedger/releases/tag/v0.1.0-alpha.1) verified as published, not a draft. GitHub asset digests match the local wheel, source archive and SHA256SUMS.txt. / Prerelease pubblica verificata, non bozza; digest remoti uguali ai file locali.
+- Release artifact scan: zero findings in the defined credential/email/path scan; tar owners are empty (no local account metadata). Final source-archive checker inspected 51 distributed files, including Git attributes and generated source metadata, with zero errors. / Nessun rilievo nella scansione dichiarata; proprietari tar vuoti. Controllati 51 file finali dell'archivio sorgente.
+- Post-release default-branch changes only complete this evidence/checklist; runtime and tag remain unchanged. / Le modifiche successive sul branch predefinito completano solo evidenze/checklist; codice e tag restano invariati.
+
+| Asset | SHA-256 |
+|---|---|
+| `agentledger_local-0.1.0a1-py3-none-any.whl` | `b65e6b8a788ed9a0116ff86319068ed2ea0170258f9eb493cbd83409327a5222` |
+| `agentledger_local-0.1.0a1.tar.gz` | `a833898572e7dd29daf3a402588d3b345a1a63a4251737d4e1e6b688cfb893ed` |
+| `SHA256SUMS.txt` | `4745d4d6ad876800cde9735ba49570fc2e0f566d732a02eafbe427d0f9e708ba` |

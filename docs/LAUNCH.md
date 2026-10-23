@@ -9,7 +9,7 @@ EN: The user requested a public repository and alpha release. Start private, the
 - [x] Tracked files and reachable-history scan / Controllo file e cronologia raggiungibile
 - [x] Noreply authorship and funding metadata / Autore noreply e metadati sostegno
 - [x] Remote CI, default branch and repository files / CI, branch predefinito e file remoti
-- [ ] Public visibility, prerelease, assets and checksums / Visibilità, prerelease, asset e checksum
+- [x] Public visibility, prerelease, assets and checksums / Visibilità, prerelease, asset e checksum
 
 EN draft: AgentLedger's first local alpha records one agent's policy decisions and token usage, calculates costs from explicit rates and exports a verifiable SQLite history. Try the offline demo without an account. It is not a sandbox or an invoice verifier.
 
