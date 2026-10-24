@@ -1,6 +1,6 @@
 # Beta verification / Verifica beta
 
-Date / Data: 2026-10-24. Package / Pacchetto: 0.2.0b1. Candidate tag / Tag previsto: v0.2.0-beta.1.
+Date / Data: 2026-10-24. Package / Pacchetto: 0.2.0b1. Published tag / Tag pubblicato: v0.2.0-beta.1.
 
 EN: Evidence is recorded after execution; beta is a release maturity label, not a security or billing certification. IT: Le evidenze vengono registrate dopo l'esecuzione; beta è un livello di maturità della release, non certificazione di sicurezza o fatturazione.
 
@@ -18,4 +18,20 @@ EN: Evidence is recorded after execution; beta is a release maturity label, not 
 - Full local suite / Suite completa locale: **72 tests passed**, Windows/Python 3.14.3. Strict overflow test and frozen alpha fixture included. `python -m mypy --check-untyped-defs agentledger`: passed eight runtime files. `python scripts/check_project.py`: zero findings, **775 core physical lines**, 62 source/documentation files at candidate preparation.
 - Built wheel/source with existing build tooling; inspected all license/notice files, zero runtime dependencies, JSONL examples and frozen alpha fixture included, no local databases/venvs/test outputs. Candidate wheel has 16 entries; extracted source checker inspected 64 files with zero findings. / Wheel e sorgenti controllati per licenze, dipendenze, esempi e assenza dati locali.
 - Fresh venv installed wheel with `--no-deps --no-index`; ran from outside source tree and confirmed import from site-packages. Demo, checkpoint, second demo, prefix verify, two-response JSONL import, filtered summary, backup and copied-ledger verification all succeeded: **8 events**, **2 imported** records, **synthetic USD 0.0114** in imported subtotal. / Installazione pulita e flusso completo verificati.
-- Exact beta-tag CI, remote asset digests and final source-archive results are added after execution. / CI del tag beta, digest remoti e risultati finali dell'archivio vengono aggiunti dopo l'esecuzione.
+- Final resumed verification / Verifica finale: **72 tests passed** again on Windows/Python 3.14.3; mypy passed all eight runtime files. Complete reachable-history check inspected four commits with zero findings in its defined scope; noreply authorship retained. Independent final reviewer approved exact candidate `936dfa95c1cd97f5c856753b8588f158b9efe5d7` with no remaining material findings.
+- Release artefacts matched the exact candidate: all **62 tracked files** in the source archive and all runtime modules in the wheel compared against Git blobs, allowing only newline normalization. Wheel has **16 entries**, all required license/notice files and no `Requires-Dist` runtime dependencies. Known credential/email/path scan found zero findings across both archives; tar owner/group names are empty. / Artefatti confrontati con il commit esatto; licenze e dipendenze controllate, nessun rilievo nel perimetro di scansione e nessun nome account nei metadati tar.
+- Reinstalled the exact wheel with `--force-reinstall --no-deps --no-index` into the isolated verification environment and reran the complete workflow in a fresh temporary directory: version **0.2.0b1**, **8 events**, **2 imported** records, **synthetic USD 0.0114**, prefix checkpoint and verified backup successful. / Reinstallato il wheel esatto e ripetuto il flusso completo in cartella nuova.
+
+## Published beta / Beta pubblicata
+
+- [Public repository](https://github.com/MRJonam91/AgentLedger), default branch `main`; exact release code commit **936dfa95c1cd97f5c856753b8588f158b9efe5d7**. Feature candidate and default branch had identical revision before tagging; no force push or history rewriting. / Repository pubblica, candidato e branch predefinito coincidenti prima del tag, nessuna riscrittura della cronologia.
+- [Default-branch CI run 40081803332](https://github.com/MRJonam91/AgentLedger/actions/runs/40081803332): **four successful jobs**, Windows/Linux with Python 3.11/3.14. Each exercised tests, history/project scan, static checks, build/install and the installed beta workflow including import/checkpoint/backup. [Feature-branch CI](https://github.com/MRJonam91/AgentLedger/actions/runs/40081612805) also succeeded. / Quattro job sul commit esatto superati, oltre alla CI del candidato.
+- [v0.2.0-beta.1 prerelease](https://github.com/MRJonam91/AgentLedger/releases/tag/v0.2.0-beta.1) published, not a draft. Annotated unsigned tag resolves to the tested candidate. All three remote asset digests match local files. / Prerelease pubblicata, non bozza; tag annotato non firmato sul commit testato, tre digest remoti corrispondenti.
+- Public visibility, default branch, funding metadata and private vulnerability reporting checked through GitHub API. No branch protection or signed attestation claim. / Visibilità, branch, funding e segnalazioni private verificati; nessuna dichiarazione di branch protetto o attestazione firmata.
+- Post-release changes only finish evidence/checklists and release links; runtime and release tag remain unchanged. / Modifiche successive limitate a evidenze, checklist e link; runtime e tag invariati.
+
+| Asset | SHA-256 |
+|---|---|
+| `agentledger_local-0.2.0b1-py3-none-any.whl` | `08549ba81b4e88a9d340b029cfc9d6487ead38807e06dd853f14c2db86d2d981` |
+| `agentledger_local-0.2.0b1.tar.gz` | `f4bc58105fc965c237efe6fc43a0f3b101e18fd83fd6dd19e52f0e08a2ea1331` |
+| `SHA256SUMS.txt` | `8f4d48eb24a4eff0b702e253d2e45a03c7e9c1885e28ac4849d9644a54e71abf` |

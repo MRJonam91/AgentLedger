@@ -2,6 +2,8 @@
 
 Current beta / Beta attuale: [beta verification / verifiche beta](VERIFICATION_BETA.md). The completed checklist below records the original alpha publication; beta has its own evidence and execution plan. / La checklist sotto è della pubblicazione alfa; la beta ha evidenze e piano propri.
 
+Beta `v0.2.0-beta.1`: [published prerelease / prerelease pubblicata](https://github.com/MRJonam91/AgentLedger/releases/tag/v0.2.0-beta.1). Beta implementation, independent review, 72 local tests, four CI combinations, installed workflow, reachable-history/archive checks and matching remote digests are complete. / Completati implementazione, revisione, 72 test locali, quattro combinazioni CI, flusso installato, controlli cronologia/archivi e confronto digest remoti.
+
 EN: The user requested a public repository and alpha release. Start private, then publish after checks. Promotion outside the repository is a separate action, not authorized by creating this file. / IT: L'utente ha richiesto repository pubblica e release alfa. Si parte privati, pubblicando dopo i controlli. La promozione su altri canali è un'azione separata, non autorizzata da questo file.
 
 - [x] Complete offline trial and test suite / Prova offline e suite completa

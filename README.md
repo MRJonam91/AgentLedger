@@ -2,7 +2,7 @@
 
 Local agent audit ledger: permissions, token usage and reproducible cost calculations.
 
-[Italiano](README.it.md) · [Beta release](https://github.com/MRJonam91/AgentLedger/releases) · [Architecture](docs/ARCHITECTURE.md)
+[Italiano](README.it.md) · [Beta release](https://github.com/MRJonam91/AgentLedger/releases/tag/v0.2.0-beta.1) · [Architecture](docs/ARCHITECTURE.md)
 
 ![Offline trial: allow, account, deny, verify](docs/assets/demo.svg)
 

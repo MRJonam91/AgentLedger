@@ -2,6 +2,8 @@
 
 **Current beta / Beta attuale:** [0.2 verification record / Verifiche 0.2](VERIFICATION_BETA.md). The alpha evidence below is historical and preserved. / Le evidenze alfa sotto sono storiche e conservate.
 
+Beta `v0.2.0-beta.1` published on 2026-10-24: 72 local tests, four successful Windows/Linux Python 3.11/3.14 CI jobs, independently reviewed, installed-package workflow and release digests verified. / Beta pubblicata il 2026-10-24: 72 test locali, quattro job CI superati, revisione indipendente, flusso installato e digest verificati. [Release](https://github.com/MRJonam91/AgentLedger/releases/tag/v0.2.0-beta.1).
+
 Date / Data: 2026-10-23. Version / Versione: 0.1.0a1.
 
 EN: This file records release evidence, not a certification. Local verification completed; remote results are recorded separately below. / IT: Questo file registra evidenze di release, non una certificazione. Verifiche locali completate; risultati remoti registrati separatamente sotto.
