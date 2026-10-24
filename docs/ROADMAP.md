@@ -1,5 +1,11 @@
 # Roadmap / Prossimi passi
 
+## Beta 0.2
+
+EN: Atomic JSONL imports, one history scan per batch, streamed verification, whole-run report filters/summary, prefix checkpoints, read-only inspection and verified no-overwrite backups. SQLite v1 and alpha hashes remain compatible. Local beta usability does not imply an external pilot, paid-provider acceptance or invoice reconciliation. See beta design and verification.
+
+IT: Import JSONL atomici, una scansione per batch, verifica in streaming, filtri/riepiloghi per esecuzione, checkpoint di prefisso, ispezione di sola lettura e backup verificati senza sovrascrittura. SQLite v1 e hash alfa compatibili. Usabilità beta locale non implica piloti esterni, accettazione provider a pagamento o riconciliazione fatture. Vedi design e verifiche beta.
+
 ## Alpha 0.1 / Alfa 0.1
 
 EN: Implemented: CLI collector, one-step text adapter, strict allow/deny, normalized imports, exact configured text cost calculation, transactional hash chain, JSON/Markdown exports and offline reproducible trial. Treat publication and CI as separate release checks in VERIFICATION.md.

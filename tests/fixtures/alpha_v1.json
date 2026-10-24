@@ -1,0 +1,28 @@
+{
+  "source_tag": "v0.1.0-alpha.1",
+  "events": [
+    {
+      "seq": 1,
+      "at": "2026-10-23T12:00:00.000000+00:00",
+      "run_id": "00000000-0000-4000-8000-000000000001",
+      "kind": "decision",
+      "data": {
+        "action": "ai.generate",
+        "max_output_tokens": 512,
+        "model": "demo-model",
+        "policy": {
+          "allowed_models": [],
+          "max_output_tokens": 0,
+          "schema_version": 1
+        },
+        "policy_hash": "71d4907f46fac1778fcdb9f204690affdb54d67a9f7d544fd823480f35916af4",
+        "reason": "default_deny",
+        "source": "demo"
+      },
+      "external_key": null,
+      "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "schema_version": 1,
+      "hash": "64cdc3215a67242bce9073a91beb8fe73a1018ca989e56a517c37a9d097b00e8"
+    }
+  ]
+}

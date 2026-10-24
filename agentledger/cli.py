@@ -6,10 +6,10 @@ import json
 import os
 import sqlite3
 import sys
-from pathlib import Path
 
 from . import __version__
-from .domain import Policy, RateCard
+from .domain import Policy, RateCard, normalize_response
+from .jsonio import read_jsonl, read_object as read_json, write_new_object
 from .service import Collector
 from .storage import GENESIS, Ledger
 
@@ -19,36 +19,13 @@ SAFE_ERRORS = {"ledger_missing", "unsupported_schema", "chain_invalid", "invalid
                "unsupported_response_status", "unsupported_usage", "unsupported_rate_version",
                "unsupported_rate_basis", "invalid_rate_date", "invalid_rate", "invalid_allowed_models",
                "unsupported_policy_version", "duplicate_allowed_models", "invalid_prompt",
-               "invalid_json", "input_too_large", "invalid_source", "append_not_persisted"}
+               "invalid_json", "input_too_large", "invalid_source", "append_not_persisted",
+               "invalid_batch", "invalid_run_id", "output_exists"}
 
 
 class SafeParser(argparse.ArgumentParser):
     def error(self, message):
         self.exit(2, json.dumps({"error": "invalid_arguments_use_help"}) + "\n")
-
-
-def unique_object(pairs):
-    result = {}
-    for key, value in pairs:
-        if key in result:
-            raise ValueError("invalid_json")
-        result[key] = value
-    return result
-
-
-def read_json(path):
-    with Path(path).open("rb") as stream:
-        data = stream.read(2 * 1024 * 1024 + 1)
-    if len(data) > 2 * 1024 * 1024:
-        raise ValueError("input_too_large")
-    try:
-        value = json.loads(data.decode("utf-8-sig"), object_pairs_hook=unique_object,
-                           parse_constant=lambda _: (_ for _ in ()).throw(ValueError()))
-    except (ValueError, UnicodeError, RecursionError):
-        raise ValueError("invalid_json") from None
-    if not isinstance(value, dict):
-        raise ValueError("invalid_json")
-    return value
 
 
 def markdown(report):
@@ -62,10 +39,13 @@ def markdown(report):
                      f"{row['output_tokens']} | {row['priced']} | {row['unpriced']} | {amount} |")
     lines += ["", f"Allowed: {report['decisions']['allowed']}; denied: {report['decisions']['denied']}",
               f"Unknown outcomes: {report['unknown_outcomes']}; pending runs: {report['pending_runs']}",
+              f"Selected events: {report['selected_event_count']}; full ledger: {report['event_count']}",
+              "Filters: " + json.dumps(report["filters"], ensure_ascii=True, sort_keys=True),
               "", "Save this checkpoint separately to detect tail deletion:",
-              f"`{report['checkpoint']}`", "", "| Seq | UTC | Source | Event | Detail |",
-              "|---:|---|---|---|---|"]
-    for event in report["events"]:
+              f"`{report['checkpoint']}`"]
+    if "events" in report:
+        lines += ["", "| Seq | UTC | Source | Event | Detail |", "|---:|---|---|---|---|"]
+    for event in report.get("events", []):
         data = event["data"]
         detail = data.get("reason", data.get("cost", {}).get("basis", ""))
         lines.append(f"| {event['seq']} | {event['at']} | {data.get('source', '')} | "
@@ -83,6 +63,9 @@ def parser():
     imported = commands.add_parser("import-response", help="Import Responses API JSON / Importa JSON")
     imported.add_argument("file")
     imported.add_argument("--rates", help="User-supplied USD text rate card / Tariffe configurate")
+    batch = commands.add_parser("import-jsonl", help="Atomic JSONL import / Importazione atomica")
+    batch.add_argument("file")
+    batch.add_argument("--rates")
     run = commands.add_parser("run", help="One text request; UTF-8 prompt on stdin / Prompt da stdin")
     run.add_argument("--model", required=True)
     run.add_argument("--max-output-tokens", type=int, default=512)
@@ -90,24 +73,47 @@ def parser():
     run.add_argument("--rates")
     report = commands.add_parser("report", help="Verified export / Esporta registro verificato")
     report.add_argument("--format", choices=("json", "markdown"), default="json")
+    report.add_argument("--source", choices=("demo", "imported", "live"))
+    report.add_argument("--model")
+    report.add_argument("--run-id")
+    report.add_argument("--summary", action="store_true", help="Omit event details / Ometti dettagli")
     verify = commands.add_parser("verify", help="Check chain and optional head / Verifica catena")
-    verify.add_argument("--expected-head")
+    anchor = verify.add_mutually_exclusive_group()
+    anchor.add_argument("--expected-head")
+    anchor.add_argument("--checkpoint", help="Trusted prefix checkpoint / Checkpoint esterno fidato")
+    checkpoint = commands.add_parser("checkpoint", help="Save a new checkpoint / Salva checkpoint")
+    checkpoint.add_argument("--output", required=True)
+    backup = commands.add_parser("backup", help="Verified SQLite snapshot / Copia SQLite verificata")
+    backup.add_argument("destination")
     return root
 
 
 def execute(args):
-    if args.command in {"report", "verify"}:
+    if args.command in {"report", "verify", "checkpoint", "backup"}:
         ledger = Ledger(args.db)
         if args.command == "verify":
-            events = ledger.read(expected_head=args.expected_head)
-            return {"verified": True, "event_count": len(events),
-                    "checkpoint": events[-1]["hash"] if events else GENESIS}, 0
-        report = Collector(ledger).report()
+            checkpoint = read_json(args.checkpoint) if args.checkpoint else None
+            return ledger.verify(expected_head=args.expected_head, checkpoint=checkpoint), 0
+        if args.command == "checkpoint":
+            state = ledger.verify()
+            write_new_object(args.output, {"schema_version": 1, "event_count": state["event_count"],
+                                          "checkpoint": state["checkpoint"]})
+            return {"saved": True, **state}, 0
+        if args.command == "backup":
+            return ledger.backup(args.destination), 0
+        report = Collector(ledger).report(args.source, args.model, args.run_id, args.summary)
         return markdown(report) if args.format == "markdown" else report, 0
     rates = RateCard.from_dict(read_json(args.rates)) if getattr(args, "rates", None) else None
     if args.command == "import-response":
         response = read_json(args.file)
+        normalize_response(response)
         return Collector(Ledger(args.db, create=True)).import_response(response, rates), 0
+    if args.command == "import-jsonl":
+        responses = read_jsonl(args.file)
+        keys = [normalize_response(response)["response_key"] for response in responses]
+        if len(set(keys)) != len(keys):
+            raise ValueError("duplicate_response")
+        return Collector(Ledger(args.db, create=True)).import_many(responses, rates), 0
     if args.command == "demo":
         return Collector(Ledger(args.db, create=True)).demo(), 0
     policy = Policy.from_dict(read_json(args.policy) if args.policy else None)

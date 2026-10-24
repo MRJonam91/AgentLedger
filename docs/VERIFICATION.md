@@ -1,5 +1,7 @@
 # Alpha verification / Verifica alfa
 
+**Current beta / Beta attuale:** [0.2 verification record / Verifiche 0.2](VERIFICATION_BETA.md). The alpha evidence below is historical and preserved. / Le evidenze alfa sotto sono storiche e conservate.
+
 Date / Data: 2026-10-23. Version / Versione: 0.1.0a1.
 
 EN: This file records release evidence, not a certification. Local verification completed; remote results are recorded separately below. / IT: Questo file registra evidenze di release, non una certificazione. Verifiche locali completate; risultati remoti registrati separatamente sotto.

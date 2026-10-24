@@ -22,3 +22,13 @@ IT: ID pubblici dei modelli e date tariffa restano leggibili. La sintassi esclud
 EN: The adapter sets `store=false`; it does not promise zero provider retention. Consult the provider's [official data controls](https://developers.openai.com/api/docs/guides/your-data) for the specific account/service. Automatic environment proxies remain OS/user configuration. API requests may incur charges; offline demo and tests do not.
 
 IT: L'adapter imposta `store=false`; non promette conservazione zero dal provider. Consulta i [controlli ufficiali](https://developers.openai.com/api/docs/guides/your-data) per account e servizio. I proxy d'ambiente restano configurazione dell'utente/sistema. Le richieste API possono essere addebitate; demo e test offline no.
+
+## Beta maintenance / Manutenzione beta
+
+EN: Strict bounded JSON/JSONL and HTTP decoding reject duplicate keys, nonfinite numbers including exponent overflow, invalid UTF-8 and excessive nesting. Batch records validate before writing and duplicate conflicts roll back together. Report filters never skip verification of hidden events. Read-only connections reduce accidental writes, not access by other local processes.
+
+IT: Parsing limitato e rigoroso JSON/JSONL e HTTP: rifiuto di chiavi duplicate, numeri non finiti incluso overflow, UTF-8 invalido e profondità eccessiva. Validazione prima della scrittura batch e rollback sui duplicati. I filtri verificano anche eventi nascosti. Connessioni di sola lettura riducono scritture accidentali, non l'accesso di altri processi.
+
+EN: Unsigned prefix checkpoints must be kept separately and protected against replacement; they do not authenticate provider data. Backup refuses existing paths, copies a consistent verified SQLite snapshot and verifies the copy. Failure removes only the output created by that attempt. The same-user account and output custody during operations remain trusted; malicious filesystem replacement is outside this boundary. Backups retain plaintext metadata. No destructive restore or cross-host recovery guarantee. Keep real checkpoints/backups out of Git.
+
+IT: Checkpoint di prefisso non firmati, da conservare separatamente e proteggere da sostituzione; non autenticano i dati provider. Backup senza sovrascrittura, snapshot coerente verificato e controllo della copia. In caso di errore viene rimosso solo l'output creato dal tentativo. Account e custodia dei file durante le operazioni restano fidati; sostituzioni ostili nel filesystem fuori perimetro. Backup con metadati in chiaro. Nessun ripristino distruttivo o garanzia fra host. Checkpoint/backup reali fuori da Git.

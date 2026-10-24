@@ -2,11 +2,11 @@
 
 Local agent audit ledger: permissions, token usage and reproducible cost calculations.
 
-[Italiano](README.it.md) · [Alpha release](https://github.com/MRJonam91/AgentLedger/releases) · [Architecture](docs/ARCHITECTURE.md)
+[Italiano](README.it.md) · [Beta release](https://github.com/MRJonam91/AgentLedger/releases) · [Architecture](docs/ARCHITECTURE.md)
 
 ![Offline trial: allow, account, deny, verify](docs/assets/demo.svg)
 
-**0.1.0a1 — usable local alpha.** Python 3.11+, Windows/Linux/macOS, no runtime dependencies. CLI only. External pilot validation and a paid live-provider smoke test remain unperformed; see [verification](docs/VERIFICATION.md).
+**0.2.0b1 — local beta.** Python 3.11+, Windows/Linux/macOS, no runtime dependencies. CLI only. Opens alpha v1 databases without migration or rewritten hashes. External pilot validation and a paid live-provider smoke test remain unperformed; see [verification](docs/VERIFICATION.md).
 
 ## Try it without an account
 
@@ -20,7 +20,27 @@ python -m agentledger verify
 
 The offline demo records one allowed request, 1,000 input tokens (200 cached), 500 output tokens and one denied request. **USD 0.0057 is a synthetic calculation using synthetic rates; no request is sent and no money is spent.** Re-running the demo appends another trial. Data stays in `.agentledger/ledger.sqlite3`, relative to your current directory.
 
-Install the CLI from source with `python -m pip install .`, or download the wheel from the release and run `python -m pip install ./agentledger_local-0.1.0a1-py3-none-any.whl`. The installed command is `agentledger`. The package is distributed through GitHub Releases, not PyPI.
+Install/upgrade from source with `python -m pip install --upgrade .`, or download the wheel and run `python -m pip install --upgrade ./agentledger_local-0.2.0b1-py3-none-any.whl`. The installed command is `agentledger`. Distribution is through GitHub Releases, not PyPI. Keep a private backup before an upgrade; do not delete your `.agentledger` folder.
+
+## Beta: collect, inspect and preserve
+
+```sh
+python -m agentledger import-jsonl examples/responses.jsonl --rates examples/rates.demo.json
+python -m agentledger report --source imported --model demo-model --summary
+python -m agentledger checkpoint --output checkpoint.json
+python -m agentledger demo
+python -m agentledger verify --checkpoint checkpoint.json
+python -m agentledger backup backup.sqlite3
+python -m agentledger --db backup.sqlite3 verify
+```
+
+The two imported fixture responses calculate **synthetic USD 0.0114** together. JSONL imports are **atomic**: any invalid record or duplicate rejects the entire batch. Limits: 16 MiB total, 1,000 nonblank records, 2 MiB per object, strict UTF-8 JSON without duplicate keys/nonfinite numbers; nesting is bounded. Imports always carry `imported`, including the Python API. A single batch verifies the existing chain once inside its write transaction, then appends all records; it never bypasses integrity checks. See the [reproducible benchmark](docs/BENCHMARKS.md).
+
+Report filters `--source`, `--model` and `--run-id UUID` combine and select **whole runs**, retaining decisions and outcomes. Model selection uses the returned usage model, or requested model if usage is unavailable. The entire ledger is verified before filtering. `event_count` and `checkpoint` describe the full ledger; `selected_event_count` and `filters` describe the selected scope. `--summary` omits event details from JSON/Markdown, retaining totals and unknown/pending outcomes. Report processing still uses O(n) memory; streaming verification/append avoids retaining historical events.
+
+`checkpoint --output` creates a **new** JSON file containing event count and head hash. Keep it separately in trusted storage. `verify --checkpoint` checks that historical prefix and allows later valid appends; it detects deletion below the saved count or a different prefix hash. An empty-ledger checkpoint attests no nonempty history. Existing `--expected-head` continues to require the exact current head, and the two flags are mutually exclusive. Checkpoints are unsigned.
+
+`backup` makes a verified SQLite snapshot, including schema and all events, and checks the copy's head/count. Checkpoint and backup commands **refuse existing output files**, including the source ledger; choose a new name each time. Backup returns counts/checkpoint, not a local path. Reports and verification open SQLite read-only. No automatic restore/merge is provided; a copied database can be inspected using `--db`. Backups contain the same plaintext metadata and must remain private.
 
 ## Collect a real response
 
@@ -37,11 +57,11 @@ Without `--rates`, usage is recorded as **unpriced**. Adapt the example rate car
 USD = ((input - cached) × input_rate + cached × cached_rate + output × output_rate) / 1,000,000
 ```
 
-Reports separate `demo`, `imported` and `live`; amounts are **priced subtotals**, excluding unpriced usage, unknown outcomes, pending calls, tool/image/audio fees and taxes. Provider invoice reconciliation is outside this alpha.
+Reports separate `demo`, `imported` and `live`; amounts are **priced subtotals**, excluding unpriced usage, unknown outcomes, pending calls, tool/image/audio fees and taxes. Provider invoice reconciliation is outside this beta.
 
 ## Run the minimal agent
 
-`run` sends a single text generation request to OpenAI. It reads a UTF-8 prompt from stdin and `OPENAI_API_KEY` from the environment. It emits accounting and discards generated text. There is no general tool execution or autonomous loop.
+`run` sends a single text generation request to OpenAI. It reads a UTF-8 prompt from stdin and `OPENAI_API_KEY` from the environment. It emits accounting and discards generated text. There is no general tool execution or autonomous loop. Malformed provider JSON is rejected; a duplicate response after a live attempt records a terminal unknown outcome without double-counting usage.
 
 Create a private `policy.json` based on `examples/policy.demo.json`: replace `demo-model` with an available model ID you have chosen and set the output-token ceiling. Configure matching real rates if desired. Then, with a key already in your environment:
 
@@ -75,7 +95,7 @@ python -m mypy --check-untyped-defs agentledger
 python -m build
 ```
 
-Tests create isolated temporary databases and never contact a paid provider. In restricted Windows sandboxes set `TEMP`/`TMP` to an existing checkout-local directory first. [Design and plan](docs/superpowers/specs/2026-10-23-alpha-design.md), [architecture](docs/ARCHITECTURE.md), [schema](docs/EVENTS.md), [roadmap](docs/ROADMAP.md), [contributing](CONTRIBUTING.md), [support](SUPPORT.md) and [security](SECURITY.md) establish the next analysis/design/implementation steps. TokenWatch/OpenAgentOS integration and a dashboard are future work, not current features.
+Tests create isolated temporary databases and never contact a paid provider. In restricted Windows sandboxes set `TEMP`/`TMP` to an existing checkout-local directory first. [Design and plan](docs/superpowers/specs/2026-10-24-beta-design.md), [architecture](docs/ARCHITECTURE.md), [schema](docs/EVENTS.md), [roadmap](docs/ROADMAP.md), [contributing](CONTRIBUTING.md), [support](SUPPORT.md) and [security](SECURITY.md) establish the next analysis/design/implementation steps. TokenWatch/OpenAgentOS integration and a dashboard are future work, not current features.
 
 ## License and attribution
 

@@ -4,6 +4,8 @@
 import json
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
+from .jsonio import decode_object
+
 MAX_RESPONSE_BYTES = 2 * 1024 * 1024
 
 
@@ -23,4 +25,4 @@ def request_response(api_key, model, prompt, max_output_tokens):
         content = reply.read(MAX_RESPONSE_BYTES + 1)
     if len(content) > MAX_RESPONSE_BYTES:
         raise ValueError("response_too_large")
-    return json.loads(content)
+    return decode_object(content)

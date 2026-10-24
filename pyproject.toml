@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agentledger-local"
-version = "0.1.0a1"
+version = "0.2.0b1"
 description = "Local agent audit ledger with explicit policy decisions and reproducible token cost calculations"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -12,7 +12,7 @@ license = "GPL-3.0-or-later"
 license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_NOTICES.md"]
 authors = [{name = "MRJonam91"}]
 keywords = ["agents", "audit", "local-first", "openai", "costs", "privacy"]
-classifiers = ["Development Status :: 3 - Alpha", "Programming Language :: Python :: 3", "Topic :: System :: Logging"]
+classifiers = ["Development Status :: 4 - Beta", "Programming Language :: Python :: 3", "Topic :: System :: Logging"]
 
 [project.scripts]
 agentledger = "agentledger.cli:main"

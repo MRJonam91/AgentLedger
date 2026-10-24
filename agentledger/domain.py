@@ -44,7 +44,7 @@ def normalize_response(response):
         raise ValueError("invalid_response_id")
     model = model_id(response.get("model"))
     status = response.get("status")
-    if status not in {"completed", "incomplete"}:
+    if not isinstance(status, str) or status not in {"completed", "incomplete"}:
         raise ValueError("unsupported_response_status")
     usage = response.get("usage")
     if not isinstance(usage, dict) or not isinstance(usage.get("input_tokens_details"), dict):
@@ -115,7 +115,7 @@ class Policy:
     @classmethod
     def from_dict(cls, value):
         if value is None:
-            return cls((), 0)
+            return cls((), 1)
         exact_keys(value, {"schema_version", "allowed_models", "max_output_tokens"})
         if type(value["schema_version"]) is not int or value["schema_version"] != 1:
             raise ValueError("unsupported_policy_version")

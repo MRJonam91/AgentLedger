@@ -1,5 +1,7 @@
 # Release readiness / Preparazione pubblicazione
 
+Current beta / Beta attuale: [beta verification / verifiche beta](VERIFICATION_BETA.md). The completed checklist below records the original alpha publication; beta has its own evidence and execution plan. / La checklist sotto è della pubblicazione alfa; la beta ha evidenze e piano propri.
+
 EN: The user requested a public repository and alpha release. Start private, then publish after checks. Promotion outside the repository is a separate action, not authorized by creating this file. / IT: L'utente ha richiesto repository pubblica e release alfa. Si parte privati, pubblicando dopo i controlli. La promozione su altri canali è un'azione separata, non autorizzata da questo file.
 
 - [x] Complete offline trial and test suite / Prova offline e suite completa

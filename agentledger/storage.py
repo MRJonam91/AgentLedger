@@ -2,13 +2,15 @@
 """SQLite persistence with transactional SHA-256 chaining and checkpoints."""
 
 import json
+import os
 import re
 import sqlite3
-from contextlib import contextmanager
+from contextlib import closing, contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 
-from .domain import canonical, digest
+from .domain import canonical, counter, digest, exact_keys
+from .jsonio import create_output
 
 GENESIS = "0" * 64
 TABLE_SQL = """CREATE TABLE events (
@@ -52,8 +54,8 @@ class Ledger:
             check_schema(conn)
 
     @contextmanager
-    def _connection(self, create=False):
-        mode = "rwc" if create else "rw"
+    def _connection(self, create=False, write=False):
+        mode = "rwc" if create else "rw" if write else "ro"
         conn = sqlite3.connect(self.path.as_uri() + "?mode=" + mode, uri=True, timeout=10)
         conn.row_factory = sqlite3.Row
         try:
@@ -64,7 +66,6 @@ class Ledger:
 
     def _verified(self, conn):
         check_schema(conn)
-        events = []
         previous = GENESIS
         for index, row in enumerate(conn.execute("SELECT * FROM events ORDER BY seq"), 1):
             try:
@@ -75,39 +76,98 @@ class Ledger:
                 if event["seq"] != index or event["prev_hash"] != previous or digest(event) != claimed:
                     raise ValueError("chain_invalid")
                 event["hash"] = claimed
-                events.append(event)
                 previous = claimed
+                yield event
             except (TypeError, json.JSONDecodeError):
                 raise ValueError("chain_invalid") from None
-        return events
 
     def read(self, expected_head=None):
         if expected_head is not None and not re.fullmatch(r"[a-f0-9]{64}", expected_head):
             raise ValueError("invalid_checkpoint")
         with self._connection() as conn:
             conn.execute("BEGIN")
-            events = self._verified(conn)
+            events = list(self._verified(conn))
             head = events[-1]["hash"] if events else GENESIS
             if expected_head is not None and expected_head != head:
                 raise ValueError("checkpoint_mismatch")
             return events
 
     def append(self, run_id, kind, data, external_key=None):
-        with self._connection() as conn:
+        return self.append_many([{"run_id": run_id, "kind": kind, "data": data,
+                                  "external_key": external_key}])[0]
+
+    def append_many(self, entries):
+        if not isinstance(entries, list) or not 1 <= len(entries) <= 1000:
+            raise ValueError("invalid_batch")
+        with self._connection(write=True) as conn:
             conn.execute("BEGIN IMMEDIATE")
-            events = self._verified(conn)
-            event = {"schema_version": 1, "seq": len(events) + 1,
-                     "at": datetime.now(timezone.utc).isoformat(timespec="microseconds"),
-                     "run_id": run_id, "kind": kind, "data": data,
-                     "external_key": external_key,
-                     "prev_hash": events[-1]["hash"] if events else GENESIS}
-            hashed = digest(event)
-            try:
-                inserted = conn.execute("INSERT INTO events VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                                        (event["seq"], event["at"], run_id, kind, canonical(data),
-                                         external_key, event["prev_hash"], hashed))
-                if inserted.rowcount != 1:
-                    raise ValueError("append_not_persisted")
-            except sqlite3.IntegrityError:
-                raise ValueError("duplicate_response") from None
-            return {**event, "hash": hashed}
+            state = self._scan(conn)
+            previous, seq = state["checkpoint"], state["event_count"]
+            appended = []
+            for item in entries:
+                exact_keys(item, {"run_id", "kind", "data", "external_key"})
+                seq += 1
+                event = {"schema_version": 1, "seq": seq,
+                         "at": datetime.now(timezone.utc).isoformat(timespec="microseconds"),
+                         **item, "prev_hash": previous}
+                hashed = digest(event)
+                try:
+                    inserted = conn.execute("INSERT INTO events VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                        (seq, event["at"], item["run_id"], item["kind"], canonical(item["data"]),
+                         item["external_key"], previous, hashed))
+                    if inserted.rowcount != 1:
+                        raise ValueError("append_not_persisted")
+                except sqlite3.IntegrityError:
+                    raise ValueError("duplicate_response") from None
+                appended.append({**event, "hash": hashed})
+                previous = hashed
+            return appended
+
+    def _scan(self, conn, expected_head=None, checkpoint=None):
+        if expected_head is not None and (not isinstance(expected_head, str)
+                or not re.fullmatch(r"[a-f0-9]{64}", expected_head)):
+            raise ValueError("invalid_checkpoint")
+        if checkpoint is not None:
+            exact_keys(checkpoint, {"schema_version", "event_count", "checkpoint"})
+            if type(checkpoint["schema_version"]) is not int or checkpoint["schema_version"] != 1:
+                raise ValueError("invalid_checkpoint")
+            counter(checkpoint["event_count"], maximum=2**63-1)
+            if not isinstance(checkpoint["checkpoint"], str) or not re.fullmatch(r"[a-f0-9]{64}", checkpoint["checkpoint"]):
+                raise ValueError("invalid_checkpoint")
+        head, count = GENESIS, 0
+        anchored = checkpoint is None or (checkpoint["event_count"] == 0 and checkpoint["checkpoint"] == GENESIS)
+        for event in self._verified(conn):
+            head, count = event["hash"], event["seq"]
+            if checkpoint is not None and count == checkpoint["event_count"]:
+                anchored = head == checkpoint["checkpoint"]
+        if not anchored or (expected_head is not None and head != expected_head):
+            raise ValueError("checkpoint_mismatch")
+        return {"verified": True, "event_count": count, "checkpoint": head}
+
+    def verify(self, expected_head=None, checkpoint=None):
+        with self._connection() as conn:
+            conn.execute("BEGIN")
+            return self._scan(conn, expected_head, checkpoint)
+
+    def backup(self, destination):
+        destination = Path(destination).absolute()
+        if destination.resolve() == self.path:
+            raise ValueError("output_exists")
+        created = False
+        try:
+            with self._connection() as source:
+                source.execute("BEGIN")
+                state = self._scan(source)
+                fd = create_output(destination)
+                os.close(fd)
+                created = True
+                with closing(sqlite3.connect(destination)) as target:
+                    source.backup(target)
+            copied = Ledger(destination).verify(expected_head=state["checkpoint"])
+            if copied["event_count"] != state["event_count"]:
+                raise ValueError("checkpoint_mismatch")
+            return {"backed_up": True, **copied}
+        except BaseException:
+            if created:
+                destination.unlink(missing_ok=True)
+            raise

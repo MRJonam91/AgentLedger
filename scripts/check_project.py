@@ -64,7 +64,7 @@ def check(history=False):
     files = public_files()
     for path in files:
         name = path.relative_to(ROOT).as_posix()
-        if path.suffix.lower() not in {".py", ".md", ".toml", ".json", ".yml", ".svg", ".in", ".cfg"} and path.name not in {"LICENSE", "NOTICE", ".gitignore", ".gitattributes", "PKG-INFO"}:
+        if path.suffix.lower() not in {".py", ".md", ".toml", ".json", ".jsonl", ".yml", ".svg", ".in", ".cfg"} and path.name not in {"LICENSE", "NOTICE", ".gitignore", ".gitattributes", "PKG-INFO"}:
             errors.append(name + ": unexpected public file type")
             continue
         content = path.read_text(encoding="utf-8")

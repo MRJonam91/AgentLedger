@@ -1,0 +1,2 @@
+{"id":"resp_batch_synthetic_001","model":"demo-model","status":"completed","usage":{"input_tokens":1000,"input_tokens_details":{"cached_tokens":200},"output_tokens":500,"total_tokens":1500},"output":[{"text":"EXAMPLE CONTENT discarded"}]}
+{"id":"resp_batch_synthetic_002","model":"demo-model","status":"completed","usage":{"input_tokens":1000,"input_tokens_details":{"cached_tokens":200},"output_tokens":500,"total_tokens":1500},"output":[{"text":"EXAMPLE CONTENT discarded"}]}

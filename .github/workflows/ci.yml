@@ -1,6 +1,7 @@
-name: Alpha checks
+name: Checks
 on:
   push:
+    branches: [main, 'beta/**']
   pull_request:
   workflow_dispatch:
 permissions:
@@ -41,3 +42,10 @@ jobs:
           agentledger demo > demo.json
           agentledger verify
           agentledger report --format markdown
+          agentledger checkpoint --output checkpoint.json
+          agentledger demo > second-demo.json
+          agentledger verify --checkpoint checkpoint.json
+          agentledger backup backup.sqlite3
+          agentledger --db backup.sqlite3 verify
+          agentledger import-jsonl "$GITHUB_WORKSPACE/examples/responses.jsonl" --rates "$GITHUB_WORKSPACE/examples/rates.demo.json"
+          agentledger report --source imported --summary
