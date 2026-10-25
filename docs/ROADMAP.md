@@ -15,7 +15,7 @@ IT: Consegna una CLI locale per contabilità minimizzata, raccolta ripetibile e 
 | Prefix checkpoints and backups / Checkpoint e backup | Implemented / Implementato | Append/truncation, no-overwrite |
 | Explicit init and exclusive exports / Init ed export esclusivi | Implemented / Implementato | Empty/existing/corrupt/failure tests |
 | Alpha/beta v1 compatibility / Compatibilita v1 | Preserved / Conservata | Original alpha code and frozen fixture |
-| Package/docs/CI/release / Pacchetto, documenti, CI e release | Release gates / Controlli release | Exact revision and asset checksums |
+| Package/docs/CI/release / Pacchetto, documenti, CI e release | Published 1.0.0 / Pubblicata 1.0.0 | [Exact revision, CI and checksums / Revisione, CI e checksum](VERIFICATION_V1.md) |
 
 ## Maintenance of 1.x / Manutenzione 1.x
 

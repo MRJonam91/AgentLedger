@@ -2,7 +2,7 @@
 
 Registro locale per agenti AI: autorizzazioni, consumo di token e calcoli di costo riproducibili.
 
-[English](README.md) · [Release](https://github.com/MRJonam91/AgentLedger/releases) · [Architettura](docs/ARCHITECTURE.md)
+[English](README.md) · [Stabile v1.0.0](https://github.com/MRJonam91/AgentLedger/releases/tag/v1.0.0) · [Architettura](docs/ARCHITECTURE.md)
 
 ![Prova offline: autorizza, contabilizza, nega, verifica](docs/assets/demo.svg)
 

@@ -2,6 +2,8 @@
 
 Current stable / Stabile attuale: [1.0 verification / verifiche 1.0](VERIFICATION_V1.md) and [implementation plan / piano implementazione](superpowers/plans/2026-10-24-v1.md). The beta and alpha publication records below are historical. / Le pubblicazioni beta e alfa sotto sono storiche.
 
+[Stable v1.0.0](https://github.com/MRJonam91/AgentLedger/releases/tag/v1.0.0) published with wheel, source archive and verified checksums. All 1.0 implementation, review, test, documentation, packaging and remote release gates are complete. Repository is public. / Pubblicata con wheel, sorgenti e checksum verificati. Completati implementazione, revisione, test, documentazione, pacchetti e controlli remoti. Repository pubblica.
+
 Beta `v0.2.0-beta.1`: [published prerelease / prerelease pubblicata](https://github.com/MRJonam91/AgentLedger/releases/tag/v0.2.0-beta.1). Beta implementation, independent review, 72 local tests, four CI combinations, installed workflow, reachable-history/archive checks and matching remote digests are complete. / Completati implementazione, revisione, 72 test locali, quattro combinazioni CI, flusso installato, controlli cronologia/archivi e confronto digest remoti.
 
 EN: The user requested a public repository and alpha release. Start private, then publish after checks. Promotion outside the repository is a separate action, not authorized by creating this file. / IT: L'utente ha richiesto repository pubblica e release alfa. Si parte privati, pubblicando dopo i controlli. La promozione su altri canali è un'azione separata, non autorizzata da questo file.

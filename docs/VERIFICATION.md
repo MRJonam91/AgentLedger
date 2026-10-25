@@ -1,6 +1,10 @@
-# Alpha verification / Verifica alfa
+# Release verification / Verifiche release
 
 **Current stable / Stabile attuale:** [1.0 verification record / Verifiche 1.0](VERIFICATION_V1.md). [Beta evidence / Evidenze beta](VERIFICATION_BETA.md) and the alpha evidence below are historical and preserved. / Le evidenze beta e alfa sotto sono storiche e conservate.
+
+[Stable v1.0.0](https://github.com/MRJonam91/AgentLedger/releases/tag/v1.0.0) published on 2026-10-25: 87 local/extracted-source tests passed, independent review approved, four-job Windows/Linux Python 3.11/3.14 CI passed on the release revision, installed workflow and archive/remote checksums verified. Repository visibility is public. / Pubblicata il 2026-10-25: 87 test locali/dai sorgenti, revisione approvata, CI a quattro job superata, flusso installato e checksum verificati. Repository pubblica.
+
+## Historical releases / Release storiche
 
 Beta `v0.2.0-beta.1` published on 2026-10-24: 72 local tests, four successful Windows/Linux Python 3.11/3.14 CI jobs, independently reviewed, installed-package workflow and release digests verified. / Beta pubblicata il 2026-10-24: 72 test locali, quattro job CI superati, revisione indipendente, flusso installato e digest verificati. [Release](https://github.com/MRJonam91/AgentLedger/releases/tag/v0.2.0-beta.1).
 
