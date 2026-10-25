@@ -1,5 +1,12 @@
 # Changelog / Modifiche
 
+## 1.0.0 — 2026-10-25
+
+- EN: Stable local CLI contract with explicit idempotent `init` and create-only JSON/Markdown report files. Existing destinations and v1 event hashes are preserved. IT: Contratto stabile con `init` idempotente ed export esclusivi; destinazioni e hash v1 conservati.
+- EN: Shared request preflight prevents malformed requests from creating a ledger; strict JSON types and failure cleanup hardened. IT: Validazione condivisa prima della creazione del registro; tipi JSON e pulizia su errore rafforzati.
+- EN: Separate-process concurrency, actual loopback HTTP/redirect/bounded-response tests, explicit distribution roots and installed-release checks. IT: Test fra processi e HTTP loopback, sorgenti distribuibili espliciti e prove della release installata.
+- EN: EN/IT documentation, compatibility policy and completed local delivery roadmap; external provider/pilot/invoice validation remains separate. IT: Documenti EN/IT, compatibilità e piano locale allineati; validazioni esterne separate.
+
 ## 0.2.0b1 — 2026-10-24
 
 - EN: Atomic JSONL imports, strict shared JSON decoding, verified batch transactions with one historical scan and streamed verification. IT: Import JSONL atomici, parsing JSON rigoroso condiviso, transazioni con una scansione storica e verifica in streaming.

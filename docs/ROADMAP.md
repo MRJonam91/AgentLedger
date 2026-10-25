@@ -1,25 +1,36 @@
-# Roadmap / Prossimi passi
+# Development plan / Piano di sviluppo
 
-## Beta 0.2
+## Stable 1.0 / Stabile 1.0
 
-EN: Atomic JSONL imports, one history scan per batch, streamed verification, whole-run report filters/summary, prefix checkpoints, read-only inspection and verified no-overwrite backups. SQLite v1 and alpha hashes remain compatible. Local beta usability does not imply an external pilot, paid-provider acceptance or invoice reconciliation. See beta design and verification.
+EN: Deliver a local developer CLI for minimized accounting, repeatable collection and verified maintenance. The [implementation plan](superpowers/plans/2026-10-24-v1.md) and [verification](VERIFICATION_V1.md) track completion and publication separately. Alpha/beta evidence is historical. The stable label covers the implemented contract.
 
-IT: Import JSONL atomici, una scansione per batch, verifica in streaming, filtri/riepiloghi per esecuzione, checkpoint di prefisso, ispezione di sola lettura e backup verificati senza sovrascrittura. SQLite v1 e hash alfa compatibili. Usabilità beta locale non implica piloti esterni, accettazione provider a pagamento o riconciliazione fatture. Vedi design e verifiche beta.
+IT: Consegna una CLI locale per contabilità minimizzata, raccolta ripetibile e manutenzione verificata. [Piano](superpowers/plans/2026-10-24-v1.md) e [verifiche](VERIFICATION_V1.md) separano completamento e pubblicazione. Evidenze alfa/beta storiche. Stabile riguarda il contratto implementato.
 
-## Alpha 0.1 / Alfa 0.1
+| Delivery / Consegna | State / Stato | Evidence / Evidenza |
+|---|---|---|
+| Minimized collection, sources, exact costs / Raccolta, fonti, costi esatti | Implemented / Implementato | Domain/privacy/accounting tests |
+| Default deny before effects / Nega prima degli effetti | Implemented / Implementato | Durable decision before transport |
+| Atomic JSONL and dedupe / JSONL atomici e deduplicazione | Implemented / Implementato | Rollback, threads, separate processes |
+| Verified whole-run reports / Report verificati per esecuzione | Implemented / Implementato | Hidden corruption/filter regressions |
+| Prefix checkpoints and backups / Checkpoint e backup | Implemented / Implementato | Append/truncation, no-overwrite |
+| Explicit init and exclusive exports / Init ed export esclusivi | Implemented / Implementato | Empty/existing/corrupt/failure tests |
+| Alpha/beta v1 compatibility / Compatibilita v1 | Preserved / Conservata | Original alpha code and frozen fixture |
+| Package/docs/CI/release / Pacchetto, documenti, CI e release | Release gates / Controlli release | Exact revision and asset checksums |
 
-EN: Implemented: CLI collector, one-step text adapter, strict allow/deny, normalized imports, exact configured text cost calculation, transactional hash chain, JSON/Markdown exports and offline reproducible trial. Treat publication and CI as separate release checks in VERIFICATION.md.
+## Maintenance of 1.x / Manutenzione 1.x
 
-IT: Implementati: collettore CLI, adapter testuale a un passo, allow/deny, importazioni normalizzate, costo testuale da tariffe configurate, catena transazionale, export JSON/Markdown e prova offline ripetibile. Pubblicazione e CI sono verifiche separate in VERIFICATION.md.
+EN: Prioritize reproducible defects, data-preserving fixes, compatibility and dependency-free runtime. Require explicit scope, regression tests, bilingual docs and verification for each behavior change. Preserve schema/hash v1 unless a separately designed major migration is approved. Measure performance with scripts/benchmark.py; local timings are observations, not throughput guarantees. Exercise installed packages at every release.
 
-## Next analysis / Prossima analisi
+IT: Priorita a difetti riproducibili, preservazione dei dati, compatibilita e runtime senza dipendenze. Ogni modifica richiede scope, test, documenti bilingui e verifiche. Schema/hash v1 invariati salvo migrazione maggiore progettata separatamente. Misura con scripts/benchmark.py: tempi locali osservati, non garanzie. Prova i pacchetti installati a ogni release.
 
-1. EN: Run a deliberately authorized pilot with one real developer, model and rate card. Compare one provider usage record against the ledger and the applicable invoice basis. IT: Prova autorizzata con sviluppatore, modello e tariffe reali; confronto tra consumo provider, registro e base di fatturazione.
-2. EN: Measure missing usage, pending outcomes, ingest volume and usefulness of exports. Success: reconstruct every attempted adapter action and explicitly explain every unknown. IT: Misurare consumi mancanti, esiti pendenti, volume e utilità degli export; ricostruire ogni tentativo ed esplicitare ogni ignoto.
-3. EN: Examine actual TokenWatch/OpenAgentOS data contracts before choosing a bridge; avoid duplicating their runtime/proxy. IT: Esaminare i contratti reali prima di scegliere un'integrazione, evitando di duplicare runtime/proxy.
+## Separate validation / Validazioni separate
 
-## Design before implementation / Design prima dell'implementazione
+EN: Real authorized developer pilots, paid-provider acceptance and invoice reconciliation need actual account/data evidence. These remain open validation activities, not missing features represented as complete. When authorized, record provenance, missing usage, pending outcomes and export usefulness; retain the distinction between observed counters and configured costs.
 
-EN: Possible next slices, each requiring its own written specification and tests: read-only runtime adapter with stable run IDs; local graphical report if pilots need it; rate provenance and reconciliation; external checkpoint signing; bounded rotation/migration for large ledgers. Multi-provider billing, tools/permissions outside this adapter, team hosting and encryption need separate threat/design work. None is a current feature or delivery commitment.
+IT: Piloti reali autorizzati, accettazione provider a pagamento e riconciliazione richiedono dati/account effettivi. Restano validazioni aperte, senza rappresentarle come concluse. Quando autorizzate, registra provenienza, consumi mancanti, esiti pendenti e utilita export; distingui contatori osservati e costi configurati.
 
-IT: Possibili prossime sezioni, ognuna con specifica e test propri: adapter runtime di sola lettura con ID stabili; report grafico locale se utile ai piloti; provenienza tariffe e riconciliazione; firma esterna checkpoint; rotazione/migrazione limitata per registri grandi. Fatturazione multiprovider, tool/permessi esterni all'adapter, hosting di squadra e cifratura richiedono analisi separate. Non sono funzionalità attuali o impegni di consegna.
+## Future initiatives / Iniziative future
+
+EN: TokenWatch/OpenAgentOS adapters require actual source contracts and run correlation. A graphical view depends on user feedback. Other providers, rate provenance, signed checkpoints, rotation/migrations, team hosting and encryption require separate design/threat work. These are possible extensions, not missing 1.0 deliveries or date commitments.
+
+IT: Adapter TokenWatch/OpenAgentOS richiedono contratti reali e correlazione. Una vista grafica dipende dai riscontri degli utenti. Altri provider, provenienza tariffe, firme, rotazione/migrazione, hosting di squadra e cifratura richiedono analisi separate. Sono estensioni possibili, non consegne mancanti della 1.0 o impegni di calendario.

@@ -1,7 +1,7 @@
 name: Checks
 on:
   push:
-    branches: [main, 'beta/**']
+    branches: [main, 'beta/**', 'release/**']
   pull_request:
   workflow_dispatch:
 permissions:
@@ -39,6 +39,7 @@ jobs:
         run: |
           cd "$RUNNER_TEMP"
           agentledger --version
+          agentledger init
           agentledger demo > demo.json
           agentledger verify
           agentledger report --format markdown
@@ -49,3 +50,5 @@ jobs:
           agentledger --db backup.sqlite3 verify
           agentledger import-jsonl "$GITHUB_WORKSPACE/examples/responses.jsonl" --rates "$GITHUB_WORKSPACE/examples/rates.demo.json"
           agentledger report --source imported --summary
+          agentledger report --source imported --summary --output report.json
+          agentledger report --format markdown --output report.md

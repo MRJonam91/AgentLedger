@@ -19,6 +19,18 @@ PATTERNS = {
     "private_key": re.compile(r"-----BEGIN (?:RSA |OPENSSH |EC )?PRIVATE KEY-----"),
     "personal_windows_path": re.compile(r"[A-Za-z]:[\\/]+Users[\\/]+[^\\/\s]+"),
     "personal_email": re.compile(r"[A-Za-z0-9_.+%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")}
+PUBLIC_ROOT_FILES = {name for name in REQUIRED if "/" not in name} | {
+    "pyproject.toml", "MANIFEST.in", "SEED.md", ".gitignore", ".gitattributes", "PKG-INFO", "setup.cfg"}
+
+
+def public_path(name):
+    parts = name.replace("\\", "/").split("/")
+    if any(part in {"", ".", ".."} for part in parts):
+        return False
+    if len(parts) == 1:
+        return name in PUBLIC_ROOT_FILES
+    return parts[0] in {"agentledger", "docs", "examples", "scripts", "tests", ".github"} and not any(
+        part.startswith((".", "_")) or part.lower() == "private" for part in parts[1:-1])
 
 
 def scan_text(content):
@@ -64,6 +76,9 @@ def check(history=False):
     files = public_files()
     for path in files:
         name = path.relative_to(ROOT).as_posix()
+        if not public_path(name):
+            errors.append("distribution: unexpected source path")
+            continue
         if path.suffix.lower() not in {".py", ".md", ".toml", ".json", ".jsonl", ".yml", ".svg", ".in", ".cfg"} and path.name not in {"LICENSE", "NOTICE", ".gitignore", ".gitattributes", "PKG-INFO"}:
             errors.append(name + ": unexpected public file type")
             continue

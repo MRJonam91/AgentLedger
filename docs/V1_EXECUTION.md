@@ -1,0 +1,11 @@
+# 1.0 execution / Esecuzione 1.0
+
+2026-10-24: Existing beta plan complete and repository already public. Selected a stable local CLI completion with explicit init, create-only report exports, preflight hardening and stronger process/transport regression checks. Schema v1 and alpha/beta compatibility remain binding. User authorized implementation and publication in this session; execute inline and retain independent review before release.
+
+Ruling: retain the documented local accounting scope. Dashboard/runtime bridges, external model billing reconciliation and signing infrastructure require separate contracts; a stable version does not claim those unimplemented capabilities. No paid-provider calls.
+
+Implementation: init/export/preflight and strict I/O regressions first failed before implementation; existing beta tests retained. Added real local HTTP and separate-process duplicate batch coverage, publication path guards and stable metadata. Independent review identified existing-empty/foreign-file initialization and invalid Unicode scalar handling; both fixed with failing regressions. Final review approved the documented scope and independently reran nine CLI/I/O tests.
+
+2026-10-25: Final full suite passed 87 tests with permission for synthetic loopback networking; sandbox-only run failed its four blocked socket tests. Mypy passed eight files; runtime core is 811 physical lines and project scan covers 70 public files. Existing five-commit history and current publication paths inspected with zero configured-scan findings. Updated current release pointers, security/support/licensing wording, roadmap and implementation checkboxes. Package/archive and exact-revision remote gates remain before stable publication.
+
+Installed-package validation: fresh venv, version1.0.0, eight-event init/demo/import/export/checkpoint/backup workflow from outside source tree passed. Existing files remained byte-identical on repeated operations; invalid requests created no ledger directory. Wheel has 16 entries, complete license notices and no runtime dependencies. Extracted-source check covered 72 distributed files and its suite passed all 87 tests. Distribution and owner metadata inspected without findings in the defined scan scope.

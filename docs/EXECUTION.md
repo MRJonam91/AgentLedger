@@ -2,7 +2,7 @@
 
 2026-10-23: Seed and adjacent project READMEs inspected. Selected independent local collector; TokenWatch/OpenAgentOS bridges deferred. User authorized definition, implementation and publication together. New seed directory contains no existing Git history; work proceeds in the explicitly selected workspace, without a redundant linked checkout.
 
-Ruling: GPL-3.0-or-later for the complete app follows the current owner standard; older seed-kit license matrix is superseded with an explicit decision in the design. No obfuscated provenance markers. Original SVG and clean noreply history provide visible provenance.
+Ruling: GPL-3.0-or-later for the complete app follows the current owner standard; older seed-kit license matrix is superseded with an explicit decision in the design. Original SVG and clean noreply history provide visible provenance.
 
 Ruling: no paid provider smoke call during development. Test the real HTTP request contract through the transport seam; disclose live API validation as unperformed.
 

@@ -8,3 +8,8 @@ recursive-include docs *.md *.svg
 recursive-include examples *.json *.jsonl
 recursive-include scripts *.py
 recursive-include tests *.py *.json
+prune _provenance
+prune .private
+prune .test-output
+prune docs/private
+prune docs/_internal

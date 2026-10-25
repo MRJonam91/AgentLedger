@@ -9,6 +9,12 @@ from scripts.check_project import scan_text
 
 
 class PublicationScanTests(unittest.TestCase):
+    def test_distribution_paths_are_explicit(self):
+        for name in ("README.md", "docs/ARCHITECTURE.md", "agentledger/cli.py", "tests/fixtures/alpha_v1.json"):
+            self.assertTrue(check_project.public_path(name))
+        for name in ("data.json", "private/data.json", "docs/private/data.md", "docs/_internal/data.md", ".local/data.json"):
+            self.assertFalse(check_project.public_path(name))
+
     def test_credentials_and_private_metadata_are_flagged_without_echo(self):
         self.assertIn("credential_pattern", scan_text("sk-" + "a" * 32))
         self.assertIn("credential_pattern", scan_text("ghp_" + "x" * 32))

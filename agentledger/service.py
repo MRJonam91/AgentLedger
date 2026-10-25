@@ -5,7 +5,7 @@ from decimal import Decimal, localcontext
 from typing import TypedDict
 from uuid import UUID, uuid4
 
-from .domain import Policy, RateCard, digest, model_id, normalize_response
+from .domain import Policy, RateCard, digest, model_id, normalize_response, validate_request
 from .provider import request_response
 from .storage import GENESIS
 
@@ -55,8 +55,7 @@ class Collector:
 
     def run(self, model, prompt, max_output_tokens, policy, api_key, rates=None,
             transport=request_response, _source="live"):
-        if not isinstance(prompt, str) or not prompt.strip() or len(prompt.encode("utf-8")) > 65536:
-            raise ValueError("invalid_prompt")
+        validate_request(model, prompt, max_output_tokens)
         if _source not in {"demo", "live"}:
             raise ValueError("invalid_source")
         reason = policy.decide(model, max_output_tokens)

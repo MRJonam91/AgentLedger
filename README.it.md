@@ -2,11 +2,11 @@
 
 Registro locale per agenti AI: autorizzazioni, consumo di token e calcoli di costo riproducibili.
 
-[English](README.md) · [Release beta](https://github.com/MRJonam91/AgentLedger/releases/tag/v0.2.0-beta.1) · [Architettura](docs/ARCHITECTURE.md)
+[English](README.md) · [Release](https://github.com/MRJonam91/AgentLedger/releases) · [Architettura](docs/ARCHITECTURE.md)
 
 ![Prova offline: autorizza, contabilizza, nega, verifica](docs/assets/demo.svg)
 
-**0.2.0b1 — beta locale.** Python 3.11+, Windows/Linux/macOS, nessuna dipendenza di esecuzione. Interfaccia da terminale. Apre i database v1 dell'alfa senza migrazione o riscrittura degli hash. Validazione con utenti esterni e prova provider a pagamento ancora da eseguire: [verifiche](docs/VERIFICATION.md).
+**1.0.0 — CLI locale stabile.** Python 3.11+, Windows/Linux/macOS, nessuna dipendenza di esecuzione. Apre i database v1 alfa/beta senza migrazione o riscrittura degli hash. La stabilità riguarda il contratto della CLI locale; validazione con utenti esterni e accettazione provider a pagamento restano da eseguire. Vedi [verifiche](docs/VERIFICATION.md) e [compatibilità 1.0](docs/COMPATIBILITY.md).
 
 ## Provala senza account
 
@@ -20,9 +20,19 @@ python -m agentledger verify
 
 La demo offline registra una richiesta autorizzata, 1.000 token in ingresso (200 in cache), 500 in uscita e una richiesta negata. **USD 0,0057 è un calcolo sintetico con tariffe inventate: nessuna chiamata e nessun addebito.** Ripetere la demo aggiunge un'altra prova. I dati restano in `.agentledger/ledger.sqlite3`, rispetto alla cartella corrente.
 
-Installa/aggiorna dal sorgente con `python -m pip install --upgrade .`, oppure scarica il wheel e usa `python -m pip install --upgrade ./agentledger_local-0.2.0b1-py3-none-any.whl`. Il comando installato è `agentledger`. Distribuzione tramite GitHub Releases, non PyPI. Conserva un backup privato prima di aggiornare; non cancellare `.agentledger`.
+Installa/aggiorna dal sorgente con `python -m pip install --upgrade .`, oppure scarica il wheel e usa `python -m pip install --upgrade ./agentledger_local-1.0.0-py3-none-any.whl`. Il comando installato è `agentledger`. Distribuzione tramite GitHub Releases, non PyPI. Conserva un backup privato prima di aggiornare; non cancellare `.agentledger`.
 
-## Beta: raccogli, ispeziona e conserva
+## Inizializza ed esporta senza sovrascrivere
+
+```sh
+python -m agentledger init
+python -m agentledger report --summary --output report.json
+python -m agentledger report --format markdown --output report.md
+```
+
+`init` crea un registro vuoto o verifica quello esistente senza cancellare eventi. `report --output` crea un nuovo file UTF-8 e restituisce una ricevuta con contatori/checkpoint. Rifiuta destinazioni esistenti, incluso il registro sorgente. La verifica completa precede filtri/export; una scrittura fallita rimuove solo il nuovo file creato dal tentativo. Usa nomi nuovi per export successivi. Senza `--output`, il report resta su stdout. Prompt/modello/limite vengono validati prima di creare il registro per `run`.
+
+## Raccogli, ispeziona e conserva
 
 ```sh
 python -m agentledger import-jsonl examples/responses.jsonl --rates examples/rates.demo.json
@@ -57,7 +67,7 @@ Senza `--rates`, il consumo viene registrato **senza prezzo**. Adatta la scheda 
 USD = ((ingresso - cache) × tariffa_ingresso + cache × tariffa_cache + uscita × tariffa_uscita) / 1.000.000
 ```
 
-I report separano `demo`, `imported` e `live`; gli importi sono **subtotali del consumo con prezzo**, escludendo eventi senza tariffa, esiti ignoti, chiamate pendenti, costi di tool/immagini/audio e imposte. La riconciliazione con le fatture non rientra nella beta.
+I report separano `demo`, `imported` e `live`; gli importi sono **subtotali del consumo con prezzo**, escludendo eventi senza tariffa, esiti ignoti, chiamate pendenti, costi di tool/immagini/audio e imposte. La riconciliazione con le fatture non rientra in questa release.
 
 ## Esegui l'agente minimo
 
@@ -95,7 +105,7 @@ python -m mypy --check-untyped-defs agentledger
 python -m build
 ```
 
-I test usano database temporanei isolati e non contattano provider a pagamento. Nei sandbox Windows restrittivi imposta `TEMP`/`TMP` su una cartella già esistente dentro il checkout. [Design e piano](docs/superpowers/specs/2026-10-24-beta-design.md), [architettura](docs/ARCHITECTURE.md), [schema](docs/EVENTS.md), [roadmap](docs/ROADMAP.md), [contributi](CONTRIBUTING.md), [supporto](SUPPORT.md) e [sicurezza](SECURITY.md) impostano i successivi passi di analisi, design e implementazione. Integrazioni TokenWatch/OpenAgentOS e dashboard sono sviluppi futuri.
+I test usano database temporanei isolati e un server HTTP loopback sintetico, senza contattare provider a pagamento. Nei sandbox Windows restrittivi imposta `TEMP`/`TMP` su una cartella già esistente dentro il checkout. [Design e piano](docs/superpowers/specs/2026-10-24-v1-design.md), [architettura](docs/ARCHITECTURE.md), [schema](docs/EVENTS.md), [roadmap](docs/ROADMAP.md), [contributi](CONTRIBUTING.md), [supporto](SUPPORT.md) e [sicurezza](SECURITY.md) impostano i successivi passi di analisi, design e implementazione. Integrazioni TokenWatch/OpenAgentOS e dashboard sono sviluppi futuri.
 
 ## Licenza e attribuzioni
 

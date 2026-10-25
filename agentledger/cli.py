@@ -6,10 +6,11 @@ import json
 import os
 import sqlite3
 import sys
+from pathlib import Path
 
 from . import __version__
-from .domain import Policy, RateCard, normalize_response
-from .jsonio import read_jsonl, read_object as read_json, write_new_object
+from .domain import Policy, RateCard, normalize_response, validate_request
+from .jsonio import read_jsonl, read_object as read_json, write_new_bytes, write_new_object
 from .service import Collector
 from .storage import GENESIS, Ledger
 
@@ -59,6 +60,7 @@ def parser():
     root.add_argument("--version", action="version", version=__version__)
     root.add_argument("--db", default=".agentledger/ledger.sqlite3", help="Local SQLite path / Percorso SQLite")
     commands = root.add_subparsers(dest="command", required=True)
+    commands.add_parser("init", help="Initialize or verify a ledger / Inizializza o verifica")
     commands.add_parser("demo", help="Offline synthetic allow/deny trial / Prova offline")
     imported = commands.add_parser("import-response", help="Import Responses API JSON / Importa JSON")
     imported.add_argument("file")
@@ -77,6 +79,7 @@ def parser():
     report.add_argument("--model")
     report.add_argument("--run-id")
     report.add_argument("--summary", action="store_true", help="Omit event details / Ometti dettagli")
+    report.add_argument("--output", help="Create a new export file / Crea un nuovo file export")
     verify = commands.add_parser("verify", help="Check chain and optional head / Verifica catena")
     anchor = verify.add_mutually_exclusive_group()
     anchor.add_argument("--expected-head")
@@ -89,6 +92,10 @@ def parser():
 
 
 def execute(args):
+    if args.command == "init":
+        path = Path(args.db)
+        existing = path.exists() or path.is_symlink()
+        return {"initialized": True, **Ledger(path, create=not existing).verify()}, 0
     if args.command in {"report", "verify", "checkpoint", "backup"}:
         ledger = Ledger(args.db)
         if args.command == "verify":
@@ -102,7 +109,13 @@ def execute(args):
         if args.command == "backup":
             return ledger.backup(args.destination), 0
         report = Collector(ledger).report(args.source, args.model, args.run_id, args.summary)
-        return markdown(report) if args.format == "markdown" else report, 0
+        rendered = markdown(report) if args.format == "markdown" else report
+        if args.output:
+            content = rendered if isinstance(rendered, str) else json.dumps(rendered, ensure_ascii=True, indent=2) + "\n"
+            write_new_bytes(args.output, content.encode("utf-8"))
+            return {"saved": True, "format": args.format, "event_count": report["event_count"],
+                    "selected_event_count": report["selected_event_count"], "checkpoint": report["checkpoint"]}, 0
+        return rendered, 0
     rates = RateCard.from_dict(read_json(args.rates)) if getattr(args, "rates", None) else None
     if args.command == "import-response":
         response = read_json(args.file)
@@ -124,6 +137,7 @@ def execute(args):
         prompt = raw.decode("utf-8-sig")
     except UnicodeError:
         raise ValueError("invalid_prompt") from None
+    validate_request(args.model, prompt, args.max_output_tokens)
     result = Collector(Ledger(args.db, create=True)).run(
         args.model, prompt, args.max_output_tokens, policy,
         os.environ.get("OPENAI_API_KEY", ""), rates)

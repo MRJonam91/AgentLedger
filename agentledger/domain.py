@@ -31,6 +31,16 @@ def model_id(value):
     return value
 
 
+def validate_request(model, prompt, max_output_tokens):
+    model_id(model)
+    counter(max_output_tokens, 1, 100000)
+    try:
+        if not isinstance(prompt, str) or not prompt.strip() or len(prompt.encode("utf-8")) > 65536:
+            raise ValueError("invalid_prompt")
+    except UnicodeError:
+        raise ValueError("invalid_prompt") from None
+
+
 def exact_keys(value, keys):
     if not isinstance(value, dict) or set(value) != set(keys):
         raise ValueError("invalid_fields")

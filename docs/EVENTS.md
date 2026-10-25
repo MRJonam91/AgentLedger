@@ -1,6 +1,6 @@
 # Event contract v1 / Contratto eventi v1
 
-Beta additions / Aggiunte beta: see the checkpoint/report extension below; the original SQLite/hash contract is unchanged. / Vedi l'estensione sotto; contratto SQLite/hash originale invariato.
+Stable 1.0 / Stabile 1.0: checkpoint/report extensions below retain the original SQLite/hash contract. `init` adds no events; report file exports preserve the same verified report schema. / Le estensioni conservano il contratto originale. `init` non aggiunge eventi; gli export mantengono lo schema del report verificato.
 
 EN: `PRAGMA user_version=1`, exact expected table and append guards are checked when opening and reading/writing. No automatic migrations. The SQLite `events` table contains `seq`, `at`, `run_id`, `kind`, canonical JSON `data`, nullable unique `external_key`, `prev_hash`, `hash`. Reports add `schema_version: 1` before verifying hashes.
 
@@ -29,6 +29,8 @@ IT: Le sequenze devono partire da 1 senza salti, gli hash precedenti devono coin
 
 ## Beta checkpoint files / File checkpoint beta
 
+Retained in 1.0 / Conservati nella 1.0.
+
 EN: SQLite and event hash schema remain v1. Reports add `selected_event_count` and `filters`; `event_count`/`checkpoint` always describe the full verified ledger. Filters select whole runs using returned usage model, otherwise requested model. `--summary` omits `events` without changing totals. Batch imports retain individual usage/run events in one transaction; no raw batch payload is stored. Public imports always carry `imported`; a duplicate live response gets a terminal unknown outcome.
 
 IT: SQLite e hash eventi restano v1. I report aggiungono `selected_event_count` e `filters`; `event_count`/`checkpoint` descrivono sempre il registro completo verificato. Filtri su esecuzioni intere con modello restituito o, se assente, richiesto. `--summary` omette `events` senza cambiare i totali. I batch mantengono eventi consumo/esecuzione individuali in una transazione, senza payload grezzo. Import sempre `imported`; duplicati live con esito ignoto conclusivo.
@@ -40,3 +42,9 @@ IT: SQLite e hash eventi restano v1. I report aggiungono `selected_event_count` 
 EN: `checkpoint --output` creates a file with exactly these three fields (empty-ledger example). `verify --checkpoint FILE` verifies the saved prefix hash/count and permits valid appends; below-count truncation/different prefix fails. `--expected-head HASH` remains an exact current-head comparison. Flags are exclusive. Empty checkpoints attest no nonempty history. Checkpoints are unsigned and require separately trusted custody.
 
 IT: `checkpoint --output` crea un file con esattamente questi tre campi (esempio vuoto). `verify --checkpoint FILE` verifica hash/numero del prefisso e accetta aggiunte valide; cancellazioni sotto il numero o prefisso diverso falliscono. `--expected-head HASH` resta il confronto esatto con la testa corrente. Opzioni esclusive. Checkpoint vuoti non attestano storia non vuota. Non sono firmati e richiedono custodia fidata separata.
+
+## Stable file exports / Export stabili su file
+
+EN: `report --output FILE` writes normal JSON/Markdown into an exclusively created UTF-8 file. Stdout contains `{saved, format, event_count, selected_event_count, checkpoint}`; no local path. JSON report fields remain unchanged. Existing files/symlinks are refused by exclusive creation. Without an output file, stdout behavior is preserved. `init` returns `{initialized, verified, event_count, checkpoint}` after full-chain verification; no reset/rewrite operation is provided.
+
+IT: `report --output FILE` scrive JSON/Markdown in un nuovo file UTF-8 esclusivo. Stdout contiene `{saved, format, event_count, selected_event_count, checkpoint}`, senza percorsi. Campi JSON invariati. File/link esistenti rifiutati. Senza file resta l'output standard. `init` restituisce `{initialized, verified, event_count, checkpoint}` dopo verifica completa; nessuna operazione di reset/riscrittura.

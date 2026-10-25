@@ -2,11 +2,11 @@
 
 Local agent audit ledger: permissions, token usage and reproducible cost calculations.
 
-[Italiano](README.it.md) · [Beta release](https://github.com/MRJonam91/AgentLedger/releases/tag/v0.2.0-beta.1) · [Architecture](docs/ARCHITECTURE.md)
+[Italiano](README.it.md) · [Releases](https://github.com/MRJonam91/AgentLedger/releases) · [Architecture](docs/ARCHITECTURE.md)
 
 ![Offline trial: allow, account, deny, verify](docs/assets/demo.svg)
 
-**0.2.0b1 — local beta.** Python 3.11+, Windows/Linux/macOS, no runtime dependencies. CLI only. Opens alpha v1 databases without migration or rewritten hashes. External pilot validation and a paid live-provider smoke test remain unperformed; see [verification](docs/VERIFICATION.md).
+**1.0.0 — stable local CLI.** Python 3.11+, Windows/Linux/macOS, no runtime dependencies. Opens alpha/beta v1 databases without migration or rewritten hashes. Stability covers the documented local CLI contract; external pilot validation and paid live-provider acceptance remain unperformed. See [verification](docs/VERIFICATION.md) and [1.0 compatibility](docs/COMPATIBILITY.md).
 
 ## Try it without an account
 
@@ -20,9 +20,19 @@ python -m agentledger verify
 
 The offline demo records one allowed request, 1,000 input tokens (200 cached), 500 output tokens and one denied request. **USD 0.0057 is a synthetic calculation using synthetic rates; no request is sent and no money is spent.** Re-running the demo appends another trial. Data stays in `.agentledger/ledger.sqlite3`, relative to your current directory.
 
-Install/upgrade from source with `python -m pip install --upgrade .`, or download the wheel and run `python -m pip install --upgrade ./agentledger_local-0.2.0b1-py3-none-any.whl`. The installed command is `agentledger`. Distribution is through GitHub Releases, not PyPI. Keep a private backup before an upgrade; do not delete your `.agentledger` folder.
+Install/upgrade from source with `python -m pip install --upgrade .`, or download the wheel and run `python -m pip install --upgrade ./agentledger_local-1.0.0-py3-none-any.whl`. The installed command is `agentledger`. Distribution is through GitHub Releases, not PyPI. Keep a private backup before an upgrade; do not delete your `.agentledger` folder.
 
-## Beta: collect, inspect and preserve
+## Initialize and export safely
+
+```sh
+python -m agentledger init
+python -m agentledger report --summary --output report.json
+python -m agentledger report --format markdown --output report.md
+```
+
+`init` creates an empty ledger or verifies the existing one without clearing events. `report --output` creates a new UTF-8 file and prints a receipt with counts/checkpoint. It refuses existing destinations, including the source ledger. Full verification still precedes filtering/export; a failed write removes only its newly created output. Choose new names for repeated exports. Without `--output`, report output remains on stdout. Prompts/models/output limits are validated before creating a ledger for `run`.
+
+## Collect, inspect and preserve
 
 ```sh
 python -m agentledger import-jsonl examples/responses.jsonl --rates examples/rates.demo.json
@@ -57,7 +67,7 @@ Without `--rates`, usage is recorded as **unpriced**. Adapt the example rate car
 USD = ((input - cached) × input_rate + cached × cached_rate + output × output_rate) / 1,000,000
 ```
 
-Reports separate `demo`, `imported` and `live`; amounts are **priced subtotals**, excluding unpriced usage, unknown outcomes, pending calls, tool/image/audio fees and taxes. Provider invoice reconciliation is outside this beta.
+Reports separate `demo`, `imported` and `live`; amounts are **priced subtotals**, excluding unpriced usage, unknown outcomes, pending calls, tool/image/audio fees and taxes. Provider invoice reconciliation is outside this release.
 
 ## Run the minimal agent
 
@@ -95,7 +105,7 @@ python -m mypy --check-untyped-defs agentledger
 python -m build
 ```
 
-Tests create isolated temporary databases and never contact a paid provider. In restricted Windows sandboxes set `TEMP`/`TMP` to an existing checkout-local directory first. [Design and plan](docs/superpowers/specs/2026-10-24-beta-design.md), [architecture](docs/ARCHITECTURE.md), [schema](docs/EVENTS.md), [roadmap](docs/ROADMAP.md), [contributing](CONTRIBUTING.md), [support](SUPPORT.md) and [security](SECURITY.md) establish the next analysis/design/implementation steps. TokenWatch/OpenAgentOS integration and a dashboard are future work, not current features.
+Tests create isolated temporary databases and a synthetic loopback HTTP server; they never contact a paid provider. In restricted Windows sandboxes set `TEMP`/`TMP` to an existing checkout-local directory first. [Design and plan](docs/superpowers/specs/2026-10-24-v1-design.md), [architecture](docs/ARCHITECTURE.md), [schema](docs/EVENTS.md), [roadmap](docs/ROADMAP.md), [contributing](CONTRIBUTING.md), [support](SUPPORT.md) and [security](SECURITY.md) establish the next analysis/design/implementation steps. TokenWatch/OpenAgentOS integration and a dashboard are future work, not current features.
 
 ## License and attribution
 

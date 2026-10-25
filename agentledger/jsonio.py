@@ -27,6 +27,8 @@ def reject_constant(value):
 
 
 def decode_object(raw):
+    if not isinstance(raw, bytes):
+        raise ValueError("invalid_json")
     if len(raw) > MAX_OBJECT:
         raise ValueError("input_too_large")
     try:
@@ -39,6 +41,11 @@ def decode_object(raw):
             item, depth = stack.pop()
             if depth > 64 or (isinstance(item, float) and not math.isfinite(item)):
                 raise ValueError()
+            if isinstance(item, str):
+                item.encode("utf-8")
+            if isinstance(item, dict):
+                for key in item:
+                    key.encode("utf-8")
             if isinstance(item, (dict, list)):
                 children = item.values() if isinstance(item, dict) else item
                 stack.extend((child, depth + 1) for child in children)
@@ -81,6 +88,12 @@ def create_output(path):
 
 def write_new_object(path, value):
     content = (canonical(value) + "\n").encode("utf-8")
+    write_new_bytes(path, content)
+
+
+def write_new_bytes(path, content):
+    if not isinstance(content, bytes):
+        raise ValueError("invalid_input")
     fd = create_output(path)
     try:
         with os.fdopen(fd, "wb") as stream:
