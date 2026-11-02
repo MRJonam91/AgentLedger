@@ -10,9 +10,11 @@ Local agent audit ledger: permissions, token usage and reproducible cost calcula
 
 ## Try it without an account
 
-From a checkout:
+Requires Git and Python 3.11+. From a terminal:
 
 ```sh
+git clone https://github.com/MRJonam91/AgentLedger.git
+cd AgentLedger
 python -m agentledger demo
 python -m agentledger report --format markdown
 python -m agentledger verify
@@ -21,6 +23,8 @@ python -m agentledger verify
 The offline demo records one allowed request, 1,000 input tokens (200 cached), 500 output tokens and one denied request. **USD 0.0057 is a synthetic calculation using synthetic rates; no request is sent and no money is spent.** Re-running the demo appends another trial. Data stays in `.agentledger/ledger.sqlite3`, relative to your current directory.
 
 Install/upgrade from source with `python -m pip install --upgrade .`, or download the wheel and run `python -m pip install --upgrade ./agentledger_local-1.0.0-py3-none-any.whl`. The installed command is `agentledger`. Distribution is through GitHub Releases, not PyPI. Keep a private backup before an upgrade; do not delete your `.agentledger` folder.
+
+[Share a concrete use case and give feedback](docs/SHARING.md). Start with the offline demo; keep real ledgers and provider data private.
 
 ## Initialize and export safely
 

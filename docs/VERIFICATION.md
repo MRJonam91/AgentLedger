@@ -47,3 +47,9 @@ EN: This file records release evidence, not a certification. Local verification 
 | `agentledger_local-0.1.0a1-py3-none-any.whl` | `b65e6b8a788ed9a0116ff86319068ed2ea0170258f9eb493cbd83409327a5222` |
 | `agentledger_local-0.1.0a1.tar.gz` | `a833898572e7dd29daf3a402588d3b345a1a63a4251737d4e1e6b688cfb893ed` |
 | `SHA256SUMS.txt` | `4745d4d6ad876800cde9735ba49570fc2e0f566d732a02eafbe427d0f9e708ba` |
+
+## Documentation review / Revisione documentazione — 2026-11-02
+
+EN: Added complete clone steps to both quick starts and concrete feedback copy. `python scripts/check_project.py` passed (811 runtime lines, no findings); offline `demo`, Markdown `report` and `verify` passed with three demo events and synthetic USD 0.0057. No runtime changes, live paid calls or new adoption claims. Full suite was not rerun locally for this documentation-only update; remote CI is tracked separately.
+
+IT: Aggiunta la clonazione ai due avvii rapidi e una richiesta di feedback concreta. Controllo progetto riuscito (811 righe runtime, nessun rilievo); `demo`, `report` Markdown e `verify` riusciti con tre eventi e USD 0,0057 sintetici. Nessun cambio runtime, chiamata a pagamento o nuova dichiarazione di adozione. Suite completa non rieseguita localmente per il solo aggiornamento documentale; CI remota tracciata separatamente.
