@@ -1,6 +1,8 @@
 # Release verification / Verifiche release
 
-**Current stable / Stabile attuale:** [1.0 verification record / Verifiche 1.0](VERIFICATION_V1.md). [Beta evidence / Evidenze beta](VERIFICATION_BETA.md) and the alpha evidence below are historical and preserved. / Le evidenze beta e alfa sotto sono storiche e conservate.
+**Current stable / Stabile attuale:** [1.0.1 maintenance verification / Verifiche manutenzione 1.0.1](VERIFICATION_MAINTENANCE.md). [Original 1.0 evidence / Evidenze 1.0](VERIFICATION_V1.md), [beta evidence / evidenze beta](VERIFICATION_BETA.md) and the alpha evidence below are historical and preserved. / Le evidenze precedenti sono storiche e conservate.
+
+[Stable v1.0.1](https://github.com/MRJonam91/AgentLedger/releases/tag/v1.0.1) published on 2026-11-04 after 97 local/extracted-source tests, independent Standards/Spec review, exact arithmetic comparisons, installed upgrade/workflow tests and four successful Windows/Linux Python 3.11/3.14 CI combinations on the release commit. Packages, history, public contents and remote checksums verified. / Patch stabile pubblicata dopo 97 test, revisioni, confronti aritmetici, prove installate/aggiornamento, CI e controlli dei pacchetti.
 
 [Stable v1.0.0](https://github.com/MRJonam91/AgentLedger/releases/tag/v1.0.0) published on 2026-10-25: 87 local/extracted-source tests passed, independent review approved, four-job Windows/Linux Python 3.11/3.14 CI passed on the release revision, installed workflow and archive/remote checksums verified. Repository visibility is public. / Pubblicata il 2026-10-25: 87 test locali/dai sorgenti, revisione approvata, CI a quattro job superata, flusso installato e checksum verificati. Repository pubblica.
 

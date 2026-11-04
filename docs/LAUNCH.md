@@ -1,5 +1,7 @@
 # Release readiness / Preparazione pubblicazione
 
+Current maintenance / Manutenzione attuale: [stable v1.0.1](https://github.com/MRJonam91/AgentLedger/releases/tag/v1.0.1), [completed plan / piano completato](superpowers/plans/2026-10-25-maintenance.md) and [verified results / risultati verificati](VERIFICATION_MAINTENANCE.md). Version 1.0.1 is published; records below preserve previous release evidence. / Versione 1.0.1 pubblicata; i record sotto conservano le evidenze precedenti.
+
 Current stable / Stabile attuale: [1.0 verification / verifiche 1.0](VERIFICATION_V1.md) and [implementation plan / piano implementazione](superpowers/plans/2026-10-24-v1.md). The beta and alpha publication records below are historical. / Le pubblicazioni beta e alfa sotto sono storiche.
 
 [Stable v1.0.0](https://github.com/MRJonam91/AgentLedger/releases/tag/v1.0.0) published with wheel, source archive and verified checksums. All 1.0 implementation, review, test, documentation, packaging and remote release gates are complete. Repository is public. / Pubblicata con wheel, sorgenti e checksum verificati. Completati implementazione, revisione, test, documentazione, pacchetti e controlli remoti. Repository pubblica.

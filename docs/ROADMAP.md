@@ -19,7 +19,7 @@ IT: Consegna una CLI locale per contabilità minimizzata, raccolta ripetibile e 
 
 ## Maintenance of 1.x / Manutenzione 1.x
 
-1.0.1: the [maintenance plan](superpowers/plans/2026-10-25-maintenance.md) covers reproduced file-option, Decimal accounting and backup-failure fixes; [evidence](VERIFICATION_MAINTENANCE.md) tracks tests and release separately. / Il piano 1.0.1 copre fix riprodotti su opzioni file, contabilità Decimal ed errori backup; le evidenze distinguono test e pubblicazione.
+1.0.1: [published maintenance release](https://github.com/MRJonam91/AgentLedger/releases/tag/v1.0.1), [completed plan](superpowers/plans/2026-10-25-maintenance.md) and [verification evidence](VERIFICATION_MAINTENANCE.md). File-option, Decimal compatibility/accounting and backup-cleanup fixes verified with 97 tests and cross-platform CI. / Manutenzione pubblicata e piano completato; fix su opzioni file, compatibilità/calcoli Decimal e pulizia backup verificati con 97 test e CI multipiattaforma.
 
 EN: Prioritize reproducible defects, data-preserving fixes, compatibility and dependency-free runtime. Require explicit scope, regression tests, bilingual docs and verification for each behavior change. Preserve schema/hash v1 unless a separately designed major migration is approved. Measure performance with scripts/benchmark.py; local timings are observations, not throughput guarantees. Exercise installed packages at every release.
 
