@@ -12,9 +12,11 @@ Manutenzione 1.0.1: i percorsi file esplicitamente vuoti ora falliscono invece d
 
 ## Provala senza account
 
-Dalla cartella del progetto:
+Servono Git e Python 3.11+. Dal terminale:
 
 ```sh
+git clone https://github.com/MRJonam91/AgentLedger.git
+cd AgentLedger
 python -m agentledger demo
 python -m agentledger report --format markdown
 python -m agentledger verify
@@ -23,6 +25,8 @@ python -m agentledger verify
 La demo offline registra una richiesta autorizzata, 1.000 token in ingresso (200 in cache), 500 in uscita e una richiesta negata. **USD 0,0057 è un calcolo sintetico con tariffe inventate: nessuna chiamata e nessun addebito.** Ripetere la demo aggiunge un'altra prova. I dati restano in `.agentledger/ledger.sqlite3`, rispetto alla cartella corrente.
 
 Installa/aggiorna dal sorgente con `python -m pip install --upgrade .`, oppure scarica il wheel e usa `python -m pip install --upgrade ./agentledger_local-1.0.1-py3-none-any.whl`. Il comando installato è `agentledger`. Distribuzione tramite GitHub Releases, non PyPI. Conserva un backup privato prima di aggiornare; non cancellare `.agentledger`.
+
+[Presentazione e richiesta feedback](docs/SHARING.md). Parti dalla demo offline e mantieni privati registri reali e dati dei provider.
 
 ## Inizializza ed esporta senza sovrascrivere
 
