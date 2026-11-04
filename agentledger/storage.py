@@ -159,8 +159,8 @@ class Ledger:
                 source.execute("BEGIN")
                 state = self._scan(source)
                 fd = create_output(destination)
-                os.close(fd)
                 created = True
+                os.close(fd)
                 with closing(sqlite3.connect(destination)) as target:
                     source.backup(target)
             copied = Ledger(destination).verify(expected_head=state["checkpoint"])

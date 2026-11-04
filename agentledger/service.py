@@ -5,7 +5,8 @@ from decimal import Decimal, localcontext
 from typing import TypedDict
 from uuid import UUID, uuid4
 
-from .domain import Policy, RateCard, digest, model_id, normalize_response, validate_request
+from .domain import (Policy, RateCard, accounting_context, cost_amount, digest,
+                     model_id, normalize_response, validate_request)
 from .provider import request_response
 from .storage import GENESIS
 
@@ -162,9 +163,8 @@ class Collector:
                 row["output_tokens"] += data["usage"]["output_tokens"]
                 if data["cost"]["basis"] == "configured_rates":
                     row["priced"] += 1
-                    with localcontext() as context:
-                        context.prec = 50
-                        totals[event_source] += Decimal(data["cost"]["amount"])
+                    with localcontext(accounting_context()):
+                        totals[event_source] += cost_amount(data["cost"]["amount"])
                 else:
                     row["unpriced"] += 1
         for event_source, row in sources.items():

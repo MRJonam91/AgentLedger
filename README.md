@@ -2,11 +2,13 @@
 
 Local agent audit ledger: permissions, token usage and reproducible cost calculations.
 
-[Italiano](README.it.md) · [Stable v1.0.0](https://github.com/MRJonam91/AgentLedger/releases/tag/v1.0.0) · [Architecture](docs/ARCHITECTURE.md)
+[Italiano](README.it.md) · [Releases](https://github.com/MRJonam91/AgentLedger/releases) · [Architecture](docs/ARCHITECTURE.md)
 
 ![Offline trial: allow, account, deny, verify](docs/assets/demo.svg)
 
-**1.0.0 — stable local CLI.** Python 3.11+, Windows/Linux/macOS, no runtime dependencies. Opens alpha/beta v1 databases without migration or rewritten hashes. Stability covers the documented local CLI contract; external pilot validation and paid live-provider acceptance remain unperformed. See [verification](docs/VERIFICATION.md) and [1.0 compatibility](docs/COMPATIBILITY.md).
+**1.0.1 — stable local CLI.** Python 3.11+, Windows/Linux/macOS, no runtime dependencies. Opens alpha/beta v1 databases without migration or rewritten hashes. Stability covers the documented local CLI contract; external pilot validation and paid live-provider acceptance remain unperformed. See [verification](docs/VERIFICATION.md) and [1.0 compatibility](docs/COMPATIBILITY.md).
+
+1.0.1 maintenance: explicitly empty file paths now fail rather than disable an option. Pricing and totals are independent of Python callers' Decimal settings. Invalid stored costs stop reports with `invalid_cost` without rewriting history; see [support](SUPPORT.md) and [maintenance verification](docs/VERIFICATION_MAINTENANCE.md).
 
 ## Try it without an account
 
@@ -20,7 +22,7 @@ python -m agentledger verify
 
 The offline demo records one allowed request, 1,000 input tokens (200 cached), 500 output tokens and one denied request. **USD 0.0057 is a synthetic calculation using synthetic rates; no request is sent and no money is spent.** Re-running the demo appends another trial. Data stays in `.agentledger/ledger.sqlite3`, relative to your current directory.
 
-Install/upgrade from source with `python -m pip install --upgrade .`, or download the wheel and run `python -m pip install --upgrade ./agentledger_local-1.0.0-py3-none-any.whl`. The installed command is `agentledger`. Distribution is through GitHub Releases, not PyPI. Keep a private backup before an upgrade; do not delete your `.agentledger` folder.
+Install/upgrade from source with `python -m pip install --upgrade .`, or download the wheel and run `python -m pip install --upgrade ./agentledger_local-1.0.1-py3-none-any.whl`. The installed command is `agentledger`. Distribution is through GitHub Releases, not PyPI. Keep a private backup before an upgrade; do not delete your `.agentledger` folder.
 
 ## Initialize and export safely
 

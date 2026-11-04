@@ -1,5 +1,7 @@
 # Event contract v1 / Contratto eventi v1
 
+1.0.1 accounting / Contabilità 1.0.1: computed USD amounts and report sums use an independent exact Decimal context. Nonfinite, malformed, negative or out-of-range stored per-response costs fail reports with `invalid_cost` without modifying the ledger; a valid hash chain alone does not certify accounting semantics. / Contesto Decimal esatto indipendente; importi persistiti invalidi rifiutati nei report senza modificare il registro. Una catena hash valida non certifica da sola la semantica contabile.
+
 Stable 1.0 / Stabile 1.0: checkpoint/report extensions below retain the original SQLite/hash contract. `init` adds no events; report file exports preserve the same verified report schema. / Le estensioni conservano il contratto originale. `init` non aggiunge eventi; gli export mantengono lo schema del report verificato.
 
 EN: `PRAGMA user_version=1`, exact expected table and append guards are checked when opening and reading/writing. No automatic migrations. The SQLite `events` table contains `seq`, `at`, `run_id`, `kind`, canonical JSON `data`, nullable unique `external_key`, `prev_hash`, `hash`. Reports add `schema_version: 1` before verifying hashes.

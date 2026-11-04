@@ -19,6 +19,8 @@ IT: Consegna una CLI locale per contabilità minimizzata, raccolta ripetibile e 
 
 ## Maintenance of 1.x / Manutenzione 1.x
 
+1.0.1: the [maintenance plan](superpowers/plans/2026-10-25-maintenance.md) covers reproduced file-option, Decimal accounting and backup-failure fixes; [evidence](VERIFICATION_MAINTENANCE.md) tracks tests and release separately. / Il piano 1.0.1 copre fix riprodotti su opzioni file, contabilità Decimal ed errori backup; le evidenze distinguono test e pubblicazione.
+
 EN: Prioritize reproducible defects, data-preserving fixes, compatibility and dependency-free runtime. Require explicit scope, regression tests, bilingual docs and verification for each behavior change. Preserve schema/hash v1 unless a separately designed major migration is approved. Measure performance with scripts/benchmark.py; local timings are observations, not throughput guarantees. Exercise installed packages at every release.
 
 IT: Priorita a difetti riproducibili, preservazione dei dati, compatibilita e runtime senza dipendenze. Ogni modifica richiede scope, test, documenti bilingui e verifiche. Schema/hash v1 invariati salvo migrazione maggiore progettata separatamente. Misura con scripts/benchmark.py: tempi locali osservati, non garanzie. Prova i pacchetti installati a ogni release.

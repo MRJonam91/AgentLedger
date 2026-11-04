@@ -1,5 +1,7 @@
 # Architecture / Architettura
 
+Maintenance 1.0.1 / Manutenzione 1.0.1: domain accounting explicitly owns its Decimal precision/exponent/trap context; it does not inherit embedding-application settings. CLI file-option presence is checked against `None`, keeping omitted defaults distinct from invalid empty paths. Backup ownership is recorded immediately after exclusive creation so close failures remove only newly created outputs. / Contesto Decimal controllato dal dominio, distinzione fra opzioni omesse e percorsi vuoti, proprietà del nuovo backup registrata prima della chiusura.
+
 EN: A local process reads input, validates it, records a decision before provider contact, normalizes usage and appends a hashed event. Verified reports are reconstructed from immutable event payloads. No background service, server, telemetry or auto-updater exists.
 
 IT: Un processo locale legge e valida gli input, registra la decisione prima di contattare il provider, normalizza i consumi e aggiunge un evento con hash. I report verificati vengono ricostruiti dai payload degli eventi. Nessun servizio in background, server, telemetria o aggiornamento automatico.

@@ -1,5 +1,9 @@
 # Support / Supporto
 
+EN: Maintenance 1.0.1 rejects explicitly empty file options; omit an optional flag to use its default, or supply a real path. `invalid_cost` means a selected stored cost is malformed, nonfinite, negative or above v1 per-response bounds. Preserve a private backup and inspect the original records/rate snapshot before acting; the application will not rewrite old events or treat that amount as zero. Hash verification and cost validity are separate checks.
+
+IT: La manutenzione 1.0.1 rifiuta opzioni file esplicitamente vuote: ometti il flag opzionale per il valore predefinito, oppure indica un percorso reale. `invalid_cost` segnala un costo persistito selezionato malformato, non finito, negativo o oltre i limiti v1 per risposta. Conserva backup privato e controlla record/tariffe originali; l'applicazione non riscrive gli eventi o tratta l'importo come zero. Verifica hash e validità dei costi sono controlli distinti.
+
 EN: Support covers the documented stable 1.x local CLI and v1 record compatibility. Follow [upgrade and compatibility guidance](docs/COMPATIBILITY.md). For a new installation, `agentledger init` explicitly creates an empty ledger; on existing valid records it verifies and preserves them. `report --output` and backups/checkpoints require a new destination name: `output_exists` protects existing bytes. Do not delete a ledger to resolve an input or output-name error.
 
 IT: Il supporto riguarda la CLI locale stabile 1.x documentata e la compatibilità dei record v1. Segui la [guida aggiornamento e compatibilità](docs/COMPATIBILITY.md). Per una nuova installazione, `agentledger init` crea esplicitamente un registro vuoto; sui record validi esistenti verifica e conserva i dati. `report --output`, backup e checkpoint richiedono nomi nuovi: `output_exists` protegge i file esistenti. Non cancellare il registro per risolvere errori di input o nomi di destinazione.

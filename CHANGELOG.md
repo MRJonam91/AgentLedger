@@ -1,5 +1,12 @@
 # Changelog / Modifiche
 
+## 1.0.1 — 2026-11-04
+
+- EN: Explicitly provided empty checkpoint/output/rates/policy paths now fail instead of being silently ignored. Missing rate/policy files cannot create a ledger. IT: Percorsi vuoti espliciti rifiutati invece di ignorati; file tariffe/policy mancanti non creano registri.
+- EN: Pricing and report arithmetic use an independent exact Decimal context; caller exponent limits and traps cannot persist infinite costs. Reports reject invalid stored amounts with `invalid_cost`, preserving original history. IT: Aritmetica Decimal indipendente; rifiuto degli importi persistiti invalidi senza riscrivere la storia.
+- EN: Valid historical costs padded by earlier Decimal clamp settings remain reportable; trailing zeros are normalized only during arithmetic, keeping stored values and hashes untouched. IT: Costi storici validi con zeri finali restano leggibili; normalizzazione solo nel calcolo, valori e hash conservati.
+- EN: A backup descriptor-close failure cleans up the exclusively created output while preserving existing files. Expanded real CLI/context/failure regressions, no schema or hash changes. IT: Pulizia del nuovo output anche su errore di chiusura; regressioni CLI/contesto/errori, schema e hash invariati.
+
 ## 1.0.0 — 2026-10-25
 
 - EN: Stable local CLI contract with explicit idempotent `init` and create-only JSON/Markdown report files. Existing destinations and v1 event hashes are preserved. IT: Contratto stabile con `init` idempotente ed export esclusivi; destinazioni e hash v1 conservati.

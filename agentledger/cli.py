@@ -21,7 +21,7 @@ SAFE_ERRORS = {"ledger_missing", "unsupported_schema", "chain_invalid", "invalid
                "unsupported_rate_basis", "invalid_rate_date", "invalid_rate", "invalid_allowed_models",
                "unsupported_policy_version", "duplicate_allowed_models", "invalid_prompt",
                "invalid_json", "input_too_large", "invalid_source", "append_not_persisted",
-               "invalid_batch", "invalid_run_id", "output_exists"}
+               "invalid_batch", "invalid_run_id", "output_exists", "invalid_cost"}
 
 
 class SafeParser(argparse.ArgumentParser):
@@ -99,7 +99,7 @@ def execute(args):
     if args.command in {"report", "verify", "checkpoint", "backup"}:
         ledger = Ledger(args.db)
         if args.command == "verify":
-            checkpoint = read_json(args.checkpoint) if args.checkpoint else None
+            checkpoint = read_json(args.checkpoint) if args.checkpoint is not None else None
             return ledger.verify(expected_head=args.expected_head, checkpoint=checkpoint), 0
         if args.command == "checkpoint":
             state = ledger.verify()
@@ -110,13 +110,14 @@ def execute(args):
             return ledger.backup(args.destination), 0
         report = Collector(ledger).report(args.source, args.model, args.run_id, args.summary)
         rendered = markdown(report) if args.format == "markdown" else report
-        if args.output:
+        if args.output is not None:
             content = rendered if isinstance(rendered, str) else json.dumps(rendered, ensure_ascii=True, indent=2) + "\n"
             write_new_bytes(args.output, content.encode("utf-8"))
             return {"saved": True, "format": args.format, "event_count": report["event_count"],
                     "selected_event_count": report["selected_event_count"], "checkpoint": report["checkpoint"]}, 0
         return rendered, 0
-    rates = RateCard.from_dict(read_json(args.rates)) if getattr(args, "rates", None) else None
+    rate_path = getattr(args, "rates", None)
+    rates = RateCard.from_dict(read_json(rate_path)) if rate_path is not None else None
     if args.command == "import-response":
         response = read_json(args.file)
         normalize_response(response)
@@ -129,7 +130,7 @@ def execute(args):
         return Collector(Ledger(args.db, create=True)).import_many(responses, rates), 0
     if args.command == "demo":
         return Collector(Ledger(args.db, create=True)).demo(), 0
-    policy = Policy.from_dict(read_json(args.policy) if args.policy else None)
+    policy = Policy.from_dict(read_json(args.policy) if args.policy is not None else None)
     raw = sys.stdin.buffer.read(65537)
     if len(raw) > 65536:
         raise ValueError("input_too_large")

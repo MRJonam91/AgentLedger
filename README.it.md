@@ -2,11 +2,13 @@
 
 Registro locale per agenti AI: autorizzazioni, consumo di token e calcoli di costo riproducibili.
 
-[English](README.md) · [Stabile v1.0.0](https://github.com/MRJonam91/AgentLedger/releases/tag/v1.0.0) · [Architettura](docs/ARCHITECTURE.md)
+[English](README.md) · [Release](https://github.com/MRJonam91/AgentLedger/releases) · [Architettura](docs/ARCHITECTURE.md)
 
 ![Prova offline: autorizza, contabilizza, nega, verifica](docs/assets/demo.svg)
 
-**1.0.0 — CLI locale stabile.** Python 3.11+, Windows/Linux/macOS, nessuna dipendenza di esecuzione. Apre i database v1 alfa/beta senza migrazione o riscrittura degli hash. La stabilità riguarda il contratto della CLI locale; validazione con utenti esterni e accettazione provider a pagamento restano da eseguire. Vedi [verifiche](docs/VERIFICATION.md) e [compatibilità 1.0](docs/COMPATIBILITY.md).
+**1.0.1 — CLI locale stabile.** Python 3.11+, Windows/Linux/macOS, nessuna dipendenza di esecuzione. Apre i database v1 alfa/beta senza migrazione o riscrittura degli hash. La stabilità riguarda il contratto della CLI locale; validazione con utenti esterni e accettazione provider a pagamento restano da eseguire. Vedi [verifiche](docs/VERIFICATION.md) e [compatibilità 1.0](docs/COMPATIBILITY.md).
+
+Manutenzione 1.0.1: i percorsi file esplicitamente vuoti ora falliscono invece di disattivare l'opzione. Costi e totali sono indipendenti dalle impostazioni Decimal del chiamante Python. Importi persistiti invalidi fermano i report con `invalid_cost` senza riscrivere la storia: [supporto](SUPPORT.md) e [verifiche manutenzione](docs/VERIFICATION_MAINTENANCE.md).
 
 ## Provala senza account
 
@@ -20,7 +22,7 @@ python -m agentledger verify
 
 La demo offline registra una richiesta autorizzata, 1.000 token in ingresso (200 in cache), 500 in uscita e una richiesta negata. **USD 0,0057 è un calcolo sintetico con tariffe inventate: nessuna chiamata e nessun addebito.** Ripetere la demo aggiunge un'altra prova. I dati restano in `.agentledger/ledger.sqlite3`, rispetto alla cartella corrente.
 
-Installa/aggiorna dal sorgente con `python -m pip install --upgrade .`, oppure scarica il wheel e usa `python -m pip install --upgrade ./agentledger_local-1.0.0-py3-none-any.whl`. Il comando installato è `agentledger`. Distribuzione tramite GitHub Releases, non PyPI. Conserva un backup privato prima di aggiornare; non cancellare `.agentledger`.
+Installa/aggiorna dal sorgente con `python -m pip install --upgrade .`, oppure scarica il wheel e usa `python -m pip install --upgrade ./agentledger_local-1.0.1-py3-none-any.whl`. Il comando installato è `agentledger`. Distribuzione tramite GitHub Releases, non PyPI. Conserva un backup privato prima di aggiornare; non cancellare `.agentledger`.
 
 ## Inizializza ed esporta senza sovrascrivere
 

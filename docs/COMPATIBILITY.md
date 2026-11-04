@@ -1,5 +1,13 @@
 # Stable contract and upgrades / Contratto stabile e aggiornamenti
 
+EN: 1.0.1 preserves SQLite/hash v1 and existing valid costs. Empty file options are rejected rather than interpreted as omitted flags. Python callers' Decimal settings no longer affect calculations. If older runs produced a nonfinite stored amount, reports stop with `invalid_cost`; no automatic data repair is attempted. See [support](../SUPPORT.md).
+
+IT: La 1.0.1 conserva SQLite/hash v1 e costi validi esistenti. Le opzioni file vuote vengono rifiutate, non interpretate come flag omessi. Le impostazioni Decimal del chiamante Python non influenzano più i calcoli. Se vecchie esecuzioni hanno prodotto importi non finiti, i report si fermano con `invalid_cost`, senza riparazione automatica. Vedi [supporto](../SUPPORT.md).
+
+EN: Exact historical amounts padded with insignificant zeros by older Decimal clamp settings remain valid. Arithmetic discards those padding zeros without changing original event strings, hashes, checkpoints or database bytes.
+
+IT: Importi storici esatti con zeri non significativi aggiunti dal precedente contesto Decimal restano validi. Il calcolo ignora gli zeri di riempimento senza modificare stringhe originali, hash, checkpoint o byte del database.
+
 EN: 1.0 supports Python 3.11+ and one local account. The compatibility baseline is the alpha/beta SQLite v1 table/trigger layout, event JSON hash inputs, source labels and exact Decimal arithmetic. 1.0 opens those ledgers directly; no migration or hash rewrite is performed. Preserve the ledger directory when upgrading. Take a verified backup and a separately trusted checkpoint before changing installations.
 
 IT: La 1.0 supporta Python 3.11+ e un account locale. La base di compatibilità è lo schema SQLite v1 alfa/beta, gli input JSON degli hash, le fonti e l'aritmetica Decimal esatta. I registri si aprono direttamente, senza migrazioni o riscrittura degli hash. Conserva la cartella dati durante l'aggiornamento. Prima di cambiare installazione crea backup verificato e checkpoint separato fidato.
@@ -7,7 +15,7 @@ IT: La 1.0 supporta Python 3.11+ e un account locale. La base di compatibilità 
 ```sh
 agentledger backup before-upgrade.sqlite3
 agentledger checkpoint --output before-upgrade.json
-python -m pip install --upgrade ./agentledger_local-1.0.0-py3-none-any.whl
+python -m pip install --upgrade ./agentledger_local-1.0.1-py3-none-any.whl
 agentledger --version
 agentledger verify --checkpoint before-upgrade.json
 ```

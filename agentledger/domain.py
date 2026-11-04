@@ -6,7 +6,41 @@ import json
 import re
 from dataclasses import dataclass
 from datetime import date
-from decimal import Decimal, localcontext
+from decimal import (Context, Decimal, DivisionByZero, Inexact, InvalidOperation,
+                     Overflow, ROUND_HALF_EVEN, localcontext)
+
+
+def accounting_context():
+    """Keep exact accounting independent of an embedding application's context."""
+    return Context(prec=50, rounding=ROUND_HALF_EVEN, Emin=-999999, Emax=999999,
+                   capitals=1, clamp=0, flags=[],
+                   traps=[InvalidOperation, DivisionByZero, Overflow, Inexact])
+
+
+def cost_amount(value):
+    if not isinstance(value, str):
+        raise ValueError("invalid_cost")
+    try:
+        number = Decimal(value, context=accounting_context())
+    except InvalidOperation:
+        raise ValueError("invalid_cost") from None
+    # v1 bounds: at most 1e9 input + 1e9 output, each at most USD 1e6/million.
+    if not number.is_finite() or not 0 <= number <= 2000000000:
+        raise ValueError("invalid_cost")
+    parts = number.as_tuple()
+    exponent = parts.exponent
+    if not isinstance(exponent, int) or not -999999 <= exponent <= 999999:
+        raise ValueError("invalid_cost")
+    if number.is_zero():
+        return Decimal(0)
+    # Old caller contexts could pad exact amounts with insignificant zeros.
+    end = len(parts.digits)
+    while end > 1 and parts.digits[end - 1] == 0:
+        end -= 1
+    exponent += len(parts.digits) - end
+    if not -18 <= exponent <= 9:
+        raise ValueError("invalid_cost")
+    return Decimal((parts.sign, parts.digits[:end], exponent))
 
 
 def canonical(value):
@@ -107,8 +141,7 @@ class RateCard:
         rates = json.loads(self.encoded)
         if rates["model"] != usage["model"]:
             return {"basis": "unpriced", "reason": "model_mismatch"}
-        with localcontext() as context:
-            context.prec = 50
+        with localcontext(accounting_context()):
             amount = ((usage["input_tokens"] - usage["cached_tokens"])
                       * Decimal(rates["input_per_million"])
                       + usage["cached_tokens"] * Decimal(rates["cached_input_per_million"])
